@@ -24,6 +24,12 @@ test("server-renders the complete Scratch rhythm-game guide", async () => {
   assert.match(html, /Ball 4/);
   assert.match(html, />K<\/kbd>/);
   assert.match(html, /YourClass_Lastname_Firstname_4-Lane-Rhythm-Game\.sb3/);
+  assert.match(html, /Completed Scratch project/);
+  assert.match(html, /Click every sprite\. Compare its code\./);
+  assert.equal((html.match(/data-sprite-id=/g) ?? []).length, 8);
+  assert.match(html, /data-sprite-panel="goal-1"/);
+  assert.match(html, /data-sprite-panel="ball-4"/);
+  assert.match(html, /The Stage should have no code/);
   assert.doesNotMatch(html, /Your site is taking shape|codex-preview|react-loading-skeleton/i);
 });
 
@@ -43,7 +49,13 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.7\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.8\.0:guide-progress/);
+  assert.match(guide, /function FinishedProjectInspector/);
+  assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
+  assert.match(guide, /Position only/);
+  assert.match(guide, /3\. K key scoring/);
+  assert.match(css, /\.sprite-tray/);
+  assert.match(css, /\.sprite-code-panel:not\(\.active\)/);
   assert.match(guide, /function Vocabulary/);
   assert.match(guide, /role="tooltip"/);
   assert.match(guide, /Point to the word, tap it, or use the Tab key/);

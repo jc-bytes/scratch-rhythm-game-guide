@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.7.0:guide-progress";
+  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.8.0:guide-progress";
   const panels = [...document.querySelectorAll(".step-panel")];
   const stepButtons = [...document.querySelectorAll(".step-sidebar li button")];
   const select = document.querySelector("#step-select");
@@ -28,6 +28,26 @@
       });
     }, { once: true });
     document.head.append(library);
+  }
+
+  function setupSpriteInspectors() {
+    document.querySelectorAll(".sprite-inspector").forEach((inspector) => {
+      const buttons = [...inspector.querySelectorAll("[data-sprite-id]")];
+      const panels = [...inspector.querySelectorAll("[data-sprite-panel]")];
+      buttons.forEach((button) => button.addEventListener("click", () => {
+        const selected = button.dataset.spriteId;
+        buttons.forEach((item) => {
+          const active = item.dataset.spriteId === selected;
+          item.classList.toggle("selected", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
+        panels.forEach((panel) => {
+          const active = panel.dataset.spritePanel === selected;
+          panel.classList.toggle("active", active);
+          panel.hidden = !active;
+        });
+      }));
+    });
   }
 
   try {
@@ -115,5 +135,6 @@
   });
 
   render();
+  setupSpriteInspectors();
   loadScratchBlocks();
 })();

@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.7.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.8.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -33,6 +33,109 @@ function Vocabulary({ term, meaning }: { term: string; meaning: string }) {
     <button type="button" className="vocabulary-term" aria-describedby={tooltipId}>{term}</button>
     <span id={tooltipId} className="vocabulary-tip" role="tooltip">{meaning}</span>
   </span>;
+}
+
+type FinishedSprite = {
+  id: string;
+  name: string;
+  kind: "goal" | "ball";
+  scripts: { title: string; code: string }[];
+};
+
+const goalPosition = (x: number) => `
+when green flag clicked
+go to x: (${x}) y: (-130)
+`;
+
+const ballPosition = (x: number) => `
+when green flag clicked
+go to x: (${x}) y: (143)
+`;
+
+const ballFall = (x: number) => `
+when green flag clicked
+show
+forever
+  glide ((180) / (tempo)) secs to x: (${x}) y: (-180)
+  if <(y position) < (-179)> then
+    hide
+    wait ((pick random (6) to (600)) / (tempo)) seconds
+    show
+    go to x: (${x}) y: (143)
+  end
+end
+`;
+
+const ballScore = (key: string) => `
+when green flag clicked
+forever
+  wait until <not <key [${key.toLowerCase()} v] pressed?>>
+  wait until <key [${key.toLowerCase()} v] pressed?>
+  if <<(y position) < (-140)> and <(y position) > (-170)>> then
+    change [score v] by (1)
+  else
+    change [score v] by (-1)
+  end
+end
+`;
+
+const finishedSprites: FinishedSprite[] = [
+  { id: "goal-1", name: "goal 1", kind: "goal", scripts: [
+    { title: "1. Position", code: goalPosition(-190) },
+    { title: "2. Setup", code: `when green flag clicked\nset [time v] to (0)\nset [score v] to (0)\nset tempo to (60) :: music` },
+    { title: "3. Timer", code: `when green flag clicked\nforever\n  change [time v] by (1)\n  wait (1) seconds\nend` },
+    { title: "4. Speed", code: `when green flag clicked\nforever\n  wait (5) seconds\n  change tempo by (1) :: music\nend` },
+    { title: "5. Music", code: `when green flag clicked\nforever\n  play drum (2 v) for (0.5) beats :: music\n  play drum (6 v) for (0.5) beats :: music\n  play drum (1 v) for (0.5) beats :: music\n  play drum (6 v) for (0.5) beats :: music\n  play drum (2 v) for (0.5) beats :: music\n  play drum (6 v) for (0.5) beats :: music\n  play drum (1 v) for (0.5) beats :: music\n  play drum (6 v) for (0.5) beats :: music\nend` },
+  ] },
+  { id: "ball-1", name: "Ball 1", kind: "ball", scripts: [
+    { title: "1. Start position", code: ballPosition(-190) },
+    { title: "2. Falling loop", code: ballFall(-190) },
+    { title: "3. D key scoring", code: ballScore("D") },
+  ] },
+  { id: "goal-2", name: "goal 2", kind: "goal", scripts: [{ title: "Position only", code: goalPosition(-112) }] },
+  { id: "ball-2", name: "Ball 2", kind: "ball", scripts: [
+    { title: "1. Start position", code: ballPosition(-112) },
+    { title: "2. Falling loop", code: ballFall(-112) },
+    { title: "3. F key scoring", code: ballScore("F") },
+  ] },
+  { id: "goal-3", name: "goal 3", kind: "goal", scripts: [{ title: "Position only", code: goalPosition(-28) }] },
+  { id: "ball-3", name: "Ball 3", kind: "ball", scripts: [
+    { title: "1. Start position", code: ballPosition(-28) },
+    { title: "2. Falling loop", code: ballFall(-28) },
+    { title: "3. J key scoring", code: ballScore("J") },
+  ] },
+  { id: "goal-4", name: "goal 4", kind: "goal", scripts: [{ title: "Position only", code: goalPosition(53) }] },
+  { id: "ball-4", name: "Ball 4", kind: "ball", scripts: [
+    { title: "1. Start position", code: ballPosition(53) },
+    { title: "2. Falling loop", code: ballFall(53) },
+    { title: "3. K key scoring", code: ballScore("K") },
+  ] },
+];
+
+function FinishedProjectInspector() {
+  const [selected, setSelected] = useState(finishedSprites[0].id);
+
+  return <section className="sprite-inspector" aria-labelledby="sprite-inspector-title">
+    <div className="sprite-inspector-heading">
+      <p className="eyebrow">Completed Scratch project</p>
+      <h3 id="sprite-inspector-title">Click every sprite. Compare its code.</h3>
+      <p>Check all 8 sprites before you turn in the game. The Stage should have no code.</p>
+    </div>
+    <div className="sprite-tray" aria-label="Finished project sprites">
+      {finishedSprites.map((sprite) => <button key={sprite.id} type="button" className={selected === sprite.id ? "selected" : ""} data-sprite-id={sprite.id} aria-pressed={selected === sprite.id} aria-controls={`code-${sprite.id}`} onClick={() => setSelected(sprite.id)}>
+        <span className={`sprite-thumb ${sprite.kind}`} aria-hidden="true" />
+        <strong>{sprite.name}</strong>
+        <small>{sprite.scripts.length} {sprite.scripts.length === 1 ? "script" : "scripts"}</small>
+      </button>)}
+    </div>
+    <div className="sprite-code-workspace">
+      {finishedSprites.map((sprite) => <section key={sprite.id} id={`code-${sprite.id}`} className={`sprite-code-panel ${selected === sprite.id ? "active" : ""}`} data-sprite-panel={sprite.id} hidden={selected !== sprite.id} aria-labelledby={`code-title-${sprite.id}`}>
+        <div className="selected-sprite-title"><span className={`sprite-thumb ${sprite.kind}`} aria-hidden="true" /><div><p>Selected sprite</p><h4 id={`code-title-${sprite.id}`}>{sprite.name}</h4></div><strong>{sprite.scripts.length} {sprite.scripts.length === 1 ? "script" : "separate scripts"}</strong></div>
+        {sprite.kind === "goal" && sprite.id !== "goal-1" ? <Callout kind="warning" title="Position only"><p>If you see setup, timer, speed, or music here, delete those extra scripts.</p></Callout> : null}
+        <div className="sprite-script-list">{sprite.scripts.map((script) => <Script key={script.title} title={script.title} code={script.code} />)}</div>
+      </section>)}
+    </div>
+  </section>;
 }
 
 const valueChip = (value: string) => <code>{value}</code>;
@@ -286,7 +389,8 @@ end
   </>;
 
   return <>
-    <p className="step-intro">Save your game. Then open the saved file and test it one more time.</p>
+    <p className="step-intro">Compare your sprites with the finished project. Then save and test your game one more time.</p>
+    <FinishedProjectInspector />
     <ol className="action-list">
       <li>Click <strong>File → Save to your computer</strong>.</li>
       <li>Name it <code>YourClass_Lastname_Firstname_4-Lane-Rhythm-Game.sb3</code>.</li>
@@ -397,6 +501,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.7.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.8.0 · Grade 7 prototype</span></footer>
   </main>;
 }

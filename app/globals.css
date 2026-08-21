@@ -140,6 +140,31 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 .extension summary { font-weight: 850; cursor: pointer; }
 .extension li { margin: 10px 0; }
 
+.sprite-inspector { margin: 28px 0 38px; border: 1px solid #cfc7e9; border-radius: 20px; background: #f5f2ff; overflow: hidden; }
+.sprite-inspector-heading { padding: 24px 26px 18px; }
+.sprite-inspector-heading .eyebrow { color: var(--violet); }
+.sprite-inspector-heading h3 { margin: 0; font-size: 1.55rem; }
+.sprite-inspector-heading > p:last-child { margin: 10px 0 0; color: var(--muted); line-height: 1.5; }
+.sprite-tray { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 9px; padding: 0 20px 20px; }
+.sprite-tray button { display: grid; grid-template-columns: 45px 1fr; grid-template-rows: auto auto; align-items: center; gap: 2px 9px; min-width: 0; border: 2px solid transparent; border-radius: 12px; padding: 10px; background: white; color: var(--ink); text-align: left; cursor: pointer; }
+.sprite-tray button:hover { border-color: #bcb0ea; }
+.sprite-tray button.selected { border-color: var(--violet); background: #eeeaff; box-shadow: 0 4px 12px rgba(63, 45, 158, .12); }
+.sprite-tray button strong { min-width: 0; overflow: hidden; font-size: .92rem; text-overflow: ellipsis; white-space: nowrap; }
+.sprite-tray button small { color: var(--muted); font-size: .74rem; }
+.sprite-thumb { display: block; grid-row: 1 / 3; width: 42px; height: 42px; border-radius: 50%; }
+.sprite-thumb.ball { background: radial-gradient(circle at 35% 25%, #fff2a6, #ffac22 60%, #e88300); box-shadow: inset -5px -6px 8px rgba(74,45,0,.18); }
+.sprite-thumb.goal { border: 4px solid #ffac22; background: white; }
+.sprite-code-workspace { border-top: 1px solid #d8d1ef; padding: 24px; background: white; }
+.sprite-code-panel:not(.active) { display: none; }
+.selected-sprite-title { display: grid; grid-template-columns: 52px 1fr auto; align-items: center; gap: 13px; margin-bottom: 18px; }
+.selected-sprite-title .sprite-thumb { grid-row: auto; width: 50px; height: 50px; }
+.selected-sprite-title p { margin: 0 0 2px; color: var(--muted); font-size: .78rem; font-weight: 750; text-transform: uppercase; letter-spacing: .06em; }
+.selected-sprite-title h4 { margin: 0; font-size: 1.35rem; }
+.selected-sprite-title > strong { border-radius: 999px; padding: 7px 10px; background: #eeeaff; color: var(--violet-dark); font-size: .78rem; }
+.sprite-script-list { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.sprite-script-list .script-card { min-width: 0; margin: 0; }
+.sprite-script-list .script-card pre.blocks { min-width: 390px; }
+
 .step-controls { display: flex; justify-content: space-between; gap: 14px; margin-top: 36px; padding-top: 26px; border-top: 1px solid var(--line); }
 .step-controls button { min-height: 48px; border-radius: 12px; padding: 0 18px; font-weight: 850; cursor: pointer; }
 .back-button { border: 1px solid #cbc4df; background: white; color: #4e485a; }
@@ -182,6 +207,11 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .key-map { grid-template-columns: 1fr 1fr; }
   .copy-checklist { grid-template-columns: 1fr 1fr; }
   .copy-checklist strong { grid-column: 1 / -1; }
+  .sprite-tray { grid-template-columns: 1fr 1fr; padding-inline: 12px; }
+  .sprite-code-workspace { padding: 18px 12px; }
+  .selected-sprite-title { grid-template-columns: 46px 1fr; }
+  .selected-sprite-title > strong { grid-column: 1 / -1; width: max-content; }
+  .sprite-script-list { grid-template-columns: 1fr; }
   .finish-card ul { columns: 1; }
   .step-controls { flex-direction: column-reverse; }
   .step-controls button { width: 100%; }
@@ -214,4 +244,8 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   a { color: black; }
   .vocabulary-term { border-bottom: 0; }
   .vocabulary-tip { display: none; }
+  .sprite-tray { display: none; }
+  .sprite-code-panel, .sprite-code-panel:not(.active) { display: block !important; break-before: page; }
+  .sprite-code-panel:first-child { break-before: auto; }
+  .sprite-script-list { grid-template-columns: 1fr; }
 }
