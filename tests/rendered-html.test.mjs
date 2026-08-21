@@ -77,7 +77,8 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /position-lane-1\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
   assert.match(guide, /make-ball-fall-only\.mp4/);
-  assert.match(guide, /make-d-score\.mp4/);
+  assert.match(guide, /make-d-score-complete\.mp4/);
+  assert.match(guide, /from the first green-flag block/);
   assert.match(guide, /make-all-copies\.mp4/);
   assert.match(guide, /function LaneOneTest/);
   assert.match(guide, /data-lane-answer="yes"/);
@@ -125,8 +126,9 @@ test("finished site has local progress, print support, and no starter preview", 
   await access(new URL("../public/video/make-ball-fall-only.vtt", import.meta.url));
   await access(new URL("../public/video/make-all-copies.mp4", import.meta.url));
   await access(new URL("../public/video/make-all-copies.vtt", import.meta.url));
-  await access(new URL("../public/video/make-d-score.mp4", import.meta.url));
-  await access(new URL("../public/video/make-d-score.vtt", import.meta.url));
+  await access(new URL("../public/video/make-d-score-complete.mp4", import.meta.url));
+  await access(new URL("../public/video/make-d-score-complete.vtt", import.meta.url));
+  await assert.rejects(access(new URL("../public/video/make-d-score.mp4", import.meta.url)));
   await access(new URL("../public/video/copy-and-modify-example.mp4", import.meta.url));
   await access(new URL("../public/video/copy-and-modify-example.vtt", import.meta.url));
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
