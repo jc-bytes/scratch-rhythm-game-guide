@@ -32,8 +32,8 @@ test("guide preserves the tested lane values from the finished project", async (
     assert.match(html, new RegExp(value.replace("-", "\\-")));
   }
   for (const key of ["D", "F", "J", "K"]) assert.match(html, new RegExp(`>${key}<\\/kbd>`));
-  assert.match(html, /180 ÷ tempo/);
-  assert.match(html, /pick random 6 to 600 ÷ tempo/);
+  assert.match(html, /\(\(180\) \/ \(tempo\)\)/);
+  assert.match(html, /\(\(pick random \(6\) to \(600\)\) \/ \(tempo\)\)/);
 });
 
 test("finished site has local progress, print support, and no starter preview", async () => {
@@ -42,7 +42,9 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.4\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.4\.1:guide-progress/);
+  assert.match(guide, /pre className="blocks"/);
+  assert.match(guide, /scratchblocks\.min\.js/);
   assert.match(guide, /make-goal-ring\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
   assert.match(guide, /Starting Part 3\?/);

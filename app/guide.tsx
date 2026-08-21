@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.4.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.4.1:guide-progress";
 
 const stepNames = [
   "Prepare Scratch",
@@ -19,18 +19,8 @@ const stepNames = [
   "Save, reopen, and submit",
 ];
 
-type Tone = "events" | "motion" | "looks" | "sound" | "control" | "sensing" | "operators" | "variables" | "music";
-
-function Block({ tone, indent = 0, children }: { tone: Tone; indent?: number; children: ReactNode }) {
-  return <div className={`scratch-block ${tone}`} style={{ marginLeft: `${indent * 22}px` }}>{children}</div>;
-}
-
-function Arg({ children }: { children: ReactNode }) {
-  return <span className="block-arg">{children}</span>;
-}
-
-function Script({ title, children }: { title: string; children: ReactNode }) {
-  return <figure className="script-card"><figcaption>{title}</figcaption><div className="script-stack">{children}</div></figure>;
+function Script({ title, code }: { title: string; code: string }) {
+  return <figure className="script-card"><figcaption>{title}</figcaption><pre className="blocks" aria-label={`Scratch blocks for ${title}`}>{code.trim()}</pre></figure>;
 }
 
 function Callout({ kind = "check", title, children }: { kind?: "check" | "tip" | "warning"; title: string; children: ReactNode }) {
@@ -61,43 +51,46 @@ function StepContent({ step }: { step: number }) {
       <li>Keep both variable checkboxes selected so the values show on the Stage.</li>
       <li>Click the <strong>Stage</strong> thumbnail. Build this setup script on the Stage.</li>
     </ol>
-    <Script title="Stage setup">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="variables">set <Arg>time</Arg> to <Arg>0</Arg></Block>
-      <Block tone="variables">set <Arg>score</Arg> to <Arg>0</Arg></Block>
-      <Block tone="music">set tempo to <Arg>60</Arg></Block>
-    </Script>
+    <Script title="Stage setup" code={`
+when green flag clicked
+set [time v] to (0)
+set [score v] to (0)
+set tempo to (60) :: music
+    `} />
     <Callout kind="warning" title="Keep shared code on the Stage"><p>Do not put the score reset, timer, or drum loop on a goal or ball. Those sprites will be duplicated later.</p></Callout>
   </>;
 
   if (step === 3) return <>
     <p className="step-intro">Stay on the Stage. Make these three separate scripts. They all start with their own green-flag block.</p>
     <div className="script-grid">
-      <Script title="Timer">
-        <Block tone="events">when green flag clicked</Block>
-        <Block tone="control">forever</Block>
-        <Block tone="variables" indent={1}>change <Arg>time</Arg> by <Arg>1</Arg></Block>
-        <Block tone="control" indent={1}>wait <Arg>1</Arg> seconds</Block>
-      </Script>
-      <Script title="Speed up slowly">
-        <Block tone="events">when green flag clicked</Block>
-        <Block tone="control">forever</Block>
-        <Block tone="control" indent={1}>wait <Arg>5</Arg> seconds</Block>
-        <Block tone="music" indent={1}>change tempo by <Arg>1</Arg></Block>
-      </Script>
+      <Script title="Timer" code={`
+when green flag clicked
+forever
+  change [time v] by (1)
+  wait (1) seconds
+end
+      `} />
+      <Script title="Speed up slowly" code={`
+when green flag clicked
+forever
+  wait (5) seconds
+  change tempo by (1) :: music
+end
+      `} />
     </div>
-    <Script title="Drum pattern. Put all eight drum blocks inside forever.">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="control">forever</Block>
-      <Block tone="music" indent={1}>play drum <Arg>2 Bass Drum</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>1 Snare Drum</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>2 Bass Drum</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>1 Snare Drum</Arg> for <Arg>0.5</Arg> beats</Block>
-      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
-    </Script>
+    <Script title="Drum pattern. Put all eight drum blocks inside forever." code={`
+when green flag clicked
+forever
+  play drum (2 v) for (0.5) beats :: music
+  play drum (6 v) for (0.5) beats :: music
+  play drum (1 v) for (0.5) beats :: music
+  play drum (6 v) for (0.5) beats :: music
+  play drum (2 v) for (0.5) beats :: music
+  play drum (6 v) for (0.5) beats :: music
+  play drum (1 v) for (0.5) beats :: music
+  play drum (6 v) for (0.5) beats :: music
+end
+    `} />
     <Callout title="Quick test"><p>Click the green flag. You should hear a repeating beat, time should count by ones, and the tempo should rise by one after five seconds.</p></Callout>
   </>;
 
@@ -129,14 +122,14 @@ function StepContent({ step }: { step: number }) {
       <li>Click the green flag and compare the Stage with the checkpoint below.</li>
     </ol>
     <div className="script-grid">
-    <Script title="goal 1 starts at the bottom">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>-130</Arg></Block>
-    </Script>
-    <Script title="Ball 1 starts above goal 1">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>143</Arg></Block>
-    </Script>
+    <Script title="goal 1 starts at the bottom" code={`
+when green flag clicked
+go to x: (-190) y: (-130)
+    `} />
+    <Script title="Ball 1 starts above goal 1" code={`
+when green flag clicked
+go to x: (-190) y: (143)
+    `} />
     </div>
     <div className="mini-stage" aria-label="Ball 1 above goal 1 in the bottom-left lane"><span className="mini-ball" /><span className="mini-goal" /><span className="coordinate top">Ball: x -190, y 143</span><span className="coordinate">Goal: x -190, y -130</span></div>
     <Callout kind="tip" title="Match the lane"><p>Both sprites use x <strong>-190</strong>. Ball 1 uses y <strong>143</strong>; goal 1 uses y <strong>-130</strong>.</p></Callout>
@@ -144,17 +137,19 @@ function StepContent({ step }: { step: number }) {
 
   if (step === 6) return <>
     <p className="step-intro">Build one complete falling loop on Ball 1. The round reporter blocks go inside the white spaces.</p>
-    <Script title="Ball 1 falling loop">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="looks">show</Block>
-      <Block tone="control">forever</Block>
-      <Block tone="motion" indent={1}>glide <Arg>180 ÷ tempo</Arg> seconds to x: <Arg>-190</Arg> y: <Arg>-180</Arg></Block>
-      <Block tone="control" indent={1}>if <Arg>y position &lt; -179</Arg> then</Block>
-      <Block tone="looks" indent={2}>hide</Block>
-      <Block tone="control" indent={2}>wait <Arg>pick random 6 to 600 ÷ tempo</Arg> seconds</Block>
-      <Block tone="looks" indent={2}>show</Block>
-      <Block tone="motion" indent={2}>go to x: <Arg>-190</Arg> y: <Arg>143</Arg></Block>
-    </Script>
+    <Script title="Ball 1 falling loop" code={`
+when green flag clicked
+show
+forever
+  glide ((180) / (tempo)) secs to x: (-190) y: (-180)
+  if <(y position) < (-179)> then
+    hide
+    wait ((pick random (6) to (600)) / (tempo)) seconds
+    show
+    go to x: (-190) y: (143)
+  end
+end
+    `} />
     <div className="recipe-grid">
       <article><span className="recipe-category operators">Operators</span><h3>Falling time</h3><p>Put <strong>180</strong> on the left of divide and <strong>tempo</strong> on the right.</p></article>
       <article><span className="recipe-category operators">Operators</span><h3>Random pause</h3><p>Put <strong>pick random 6 to 600</strong> on the left of divide and <strong>tempo</strong> on the right.</p></article>
@@ -165,16 +160,18 @@ function StepContent({ step }: { step: number }) {
 
   if (step === 7) return <>
     <p className="step-intro">This script gives one point when D is pressed while the ball is inside the goal. An early or late press removes one point.</p>
-    <Script title="Ball 1 scoring loop">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="control">forever</Block>
-      <Block tone="control" indent={1}>wait until <Arg>not key d pressed?</Arg></Block>
-      <Block tone="control" indent={1}>wait until <Arg>key d pressed?</Arg></Block>
-      <Block tone="control" indent={1}>if <Arg>y position &lt; -140 and y position &gt; -170</Arg> then</Block>
-      <Block tone="variables" indent={2}>change <Arg>score</Arg> by <Arg>1</Arg></Block>
-      <Block tone="control" indent={1}>else</Block>
-      <Block tone="variables" indent={2}>change <Arg>score</Arg> by <Arg>-1</Arg></Block>
-    </Script>
+    <Script title="Ball 1 scoring loop" code={`
+when green flag clicked
+forever
+  wait until <not <key [d v] pressed?>>
+  wait until <key [d v] pressed?>
+  if <<(y position) < (-140)> and <(y position) > (-170)>> then
+    change [score v] by (1)
+  else
+    change [score v] by (-1)
+  end
+end
+    `} />
     <Callout kind="tip" title="Why wait twice?"><p>The first wait makes Scratch wait for D to be released. The second waits for the next press. Holding D cannot score over and over.</p></Callout>
     <Callout title="The hit zone"><p>The ball scores only while its y position is below <strong>-140</strong> and above <strong>-170</strong>.</p></Callout>
   </>;
@@ -282,6 +279,32 @@ export default function Guide() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    const scratchWindow = window as typeof window & {
+      scratchblocks?: { renderMatching: (selector: string, options: { style: string; languages: string[]; scale: number }) => void };
+    };
+    const renderBlocks = () => scratchWindow.scratchblocks?.renderMatching("pre.blocks", {
+      style: "scratch3",
+      languages: ["en"],
+      scale: 0.78,
+    });
+
+    if (scratchWindow.scratchblocks) {
+      renderBlocks();
+      return;
+    }
+
+    const existing = document.querySelector<HTMLScriptElement>('script[data-scratchblocks="true"]');
+    const script = existing || document.createElement("script");
+    script.addEventListener("load", renderBlocks, { once: true });
+    if (!existing) {
+      script.src = "/vendor/scratchblocks.min.js";
+      script.dataset.scratchblocks = "true";
+      script.defer = true;
+      document.head.append(script);
+    }
+  }, []);
+
+  useEffect(() => {
     queueMicrotask(() => {
       try {
         const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
@@ -345,6 +368,6 @@ export default function Guide() {
         <p className="storage-note">Progress saves only in this browser on this device. Your Scratch project must still be saved as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.4.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.4.1 · Grade 7 prototype</span></footer>
   </main>;
 }

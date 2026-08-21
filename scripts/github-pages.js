@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.4.0:guide-progress";
+  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.4.1:guide-progress";
   const panels = [...document.querySelectorAll(".step-panel")];
   const stepButtons = [...document.querySelectorAll(".step-sidebar li button")];
   const select = document.querySelector("#step-select");
@@ -16,6 +16,19 @@
   const optionLabels = select ? [...select.options].map((option) => option.textContent.replace(/ ✓$/, "")) : [];
   let current = 1;
   let completed = [];
+
+  function loadScratchBlocks() {
+    const library = document.createElement("script");
+    library.src = "./vendor/scratchblocks.min.js";
+    library.addEventListener("load", () => {
+      window.scratchblocks?.renderMatching("pre.blocks", {
+        style: "scratch3",
+        languages: ["en"],
+        scale: 0.78,
+      });
+    }, { once: true });
+    document.head.append(library);
+  }
 
   try {
     const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
@@ -102,4 +115,5 @@
   });
 
   render();
+  loadScratchBlocks();
 })();
