@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.3.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.4.0:guide-progress";
 
 const stepNames = [
   "Prepare Scratch",
@@ -15,8 +15,8 @@ const stepNames = [
   "Test lane 1",
   "Copy and test lane 2",
   "Copy and test lanes 3 and 4",
-  "Test the whole game",
-  "Save and submit",
+  "Run the final playtest",
+  "Save, reopen, and submit",
 ];
 
 type Tone = "events" | "motion" | "looks" | "sound" | "control" | "sensing" | "operators" | "variables" | "music";
@@ -238,22 +238,24 @@ function StepContent({ step }: { step: number }) {
   </>;
 
   if (step === 11) return <>
-    <p className="step-intro">Run the complete game. Test one fact at a time.</p>
+    <p className="step-intro">Run one controlled playtest. Do each check in order so you know which script to repair if something fails.</p>
+    <Callout kind="tip" title="Starting Part 4?"><p>This is the third and final classroom phase. Complete the repair check in step 10 before you start this one-minute test.</p></Callout>
     <div className="key-map" aria-label="Lane controls"><span><kbd>D</kbd> lane 1</span><span><kbd>F</kbd> lane 2</span><span><kbd>J</kbd> lane 3</span><span><kbd>K</kbd> lane 4</span></div>
     <ul className="test-list">
-      <li><span>1</span>Each ball falls directly toward its own ring.</li>
-      <li><span>2</span>D, F, J, and K control the matching lanes.</li>
-      <li><span>3</span>A well-timed press adds 1. A poor press removes 1.</li>
-      <li><span>4</span>Time rises once per second, not four times per second.</li>
-      <li><span>5</span>Only one drum pattern plays.</li>
-      <li><span>6</span>The balls return after different random pauses.</li>
-      <li><span>7</span>The game becomes slightly faster over time.</li>
+      <li><span>1</span><div><strong>Reset.</strong> Click stop, then the green flag. Score and time begin at 0. Music tempo begins at 60.</div></li>
+      <li><span>2</span><div><strong>Observe.</strong> Do not press a key for 10 seconds. Time reaches about 10, one drum pattern plays, and every ball falls toward its own ring.</div></li>
+      <li><span>3</span><div><strong>Test the lanes.</strong> Press D, F, J, and K when the matching ball overlaps its ring. Each correct press adds 1.</div></li>
+      <li><span>4</span><div><strong>Test a mistake.</strong> Press one key too early. Score drops by 1.</div></li>
+      <li><span>5</span><div><strong>Test holding.</strong> Hold one key down. It counts once, not over and over.</div></li>
+      <li><span>6</span><div><strong>Watch the return.</strong> Balls disappear at the bottom and return after different random pauses.</div></li>
+      <li><span>7</span><div><strong>Restart.</strong> Click stop, then the flag. Score and time return to 0 and the four balls start again.</div></li>
     </ul>
+    <Callout kind="warning" title="Tempo should rise slowly"><p>The correct speed-up script changes tempo by <strong>1</strong> after every <strong>5 seconds</strong>. After about 20 seconds, tempo should be near 64, not 80 or higher.</p></Callout>
     <div className="debug-grid">
       <article><h3>Ball misses its ring</h3><p>Match all three x values to the lane table in step 10.</p></article>
       <article><h3>Wrong key scores</h3><p>Change both key blocks inside that ball&apos;s scoring script.</p></article>
       <article><h3>Timer runs too fast</h3><p>Remove timer scripts from sprites. Keep one timer on the Stage.</p></article>
-      <article><h3>Music sounds stacked</h3><p>Remove drum loops from sprites. Keep one drum loop on the Stage.</p></article>
+      <article><h3>Music is stacked or too fast</h3><p>Keep one drum loop and one change-tempo-by-1 script on the Stage. Remove copies from every sprite.</p></article>
       <article><h3>Score changes many times</h3><p>Check that <strong>wait until not key pressed</strong> comes before <strong>wait until key pressed</strong>.</p></article>
       <article><h3>Ball never returns</h3><p>Put hide, wait, show, and go to inside the if block in that order.</p></article>
     </div>
@@ -264,8 +266,9 @@ function StepContent({ step }: { step: number }) {
     <ol className="action-list">
       <li>Click <strong>File → Save to your computer</strong>.</li>
       <li>Name it <code>YourClass_Lastname_Firstname_4-Lane-Rhythm-Game.sb3</code>.</li>
-      <li>Open the downloaded file once. Confirm that Scratch loads all nine sprites: four goals, four balls, and the Stage.</li>
-      <li>Run one final D, F, J, K test.</li>
+      <li>Find the downloaded file. Confirm that its name ends in <strong>.sb3</strong>.</li>
+      <li>Open the downloaded file in Scratch. Confirm that it loads four goals, four balls, and the Stage.</li>
+      <li>Click the flag and run one final D, F, J, K test in the reopened file.</li>
       <li>Submit the <strong>.sb3 file</strong> where your teacher instructed.</li>
     </ol>
     <div className="finish-card"><p className="eyebrow">Finished project</p><h3>Your game needs all of these</h3><ul><li>Four aligned lanes</li><li>D, F, J, and K controls</li><li>Score and time</li><li>Repeating drum beat</li><li>Random note delays</li><li>Gradual speed increase</li><li>A saved .sb3 file that opens</li></ul></div>
@@ -342,6 +345,6 @@ export default function Guide() {
         <p className="storage-note">Progress saves only in this browser on this device. Your Scratch project must still be saved as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.3.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.4.0 · Grade 7 prototype</span></footer>
   </main>;
 }

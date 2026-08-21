@@ -19,7 +19,7 @@ test("server-renders the complete Scratch rhythm-game guide", async () => {
   assert.match(html, /<title>Build a 4-Lane Rhythm Game in Scratch<\/title>/i);
   assert.match(html, /Build two sprites\. Test them\. Then copy\./);
   assert.match(html, /id="step-12"/);
-  assert.match(html, /Save and submit/);
+  assert.match(html, /Save, reopen, and submit/);
   assert.match(html, /Ball 4/);
   assert.match(html, />K<\/kbd>/);
   assert.match(html, /YourClass_Lastname_Firstname_4-Lane-Rhythm-Game\.sb3/);
@@ -42,10 +42,12 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.3\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.4\.0:guide-progress/);
   assert.match(guide, /make-goal-ring\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
   assert.match(guide, /Starting Part 3\?/);
+  assert.match(guide, /Starting Part 4\?/);
+  assert.match(guide, /After about 20 seconds, tempo should be near 64/);
   assert.match(guide, /Repair projects made from the video/);
   assert.match(guide, /shared scripts do not get copied four times/);
   assert.match(guide, /window\.confirm/);
