@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.11.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.12.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -13,8 +13,8 @@ const stepNames = [
   "Make Ball 1 fall",
   "Make D change the score",
   "Test lane 1",
-  "Copy lane 1 to make lane 2",
-  "Make lanes 3 and 4",
+  "Make all the copies",
+  "Change the copied sprites",
   "Test the whole game",
   "Save and turn in your game",
 ];
@@ -342,44 +342,49 @@ end
   </>;
 
   if (step === 9) return <>
-    <p className="step-intro">Copy lane 1. Change the copy into lane 2. Test lane 2 before making more copies.</p>
+    <p className="step-intro">Make and name all 6 copies. Do not change any blocks yet.</p>
     <Callout kind="tip" title="Are you starting Part 3?"><p>Do the 6 checks in step 8 first. Come back here when all 6 checks work.</p></Callout>
+    <h3>Copy the goals</h3>
     <ol className="action-list">
       <li>Right-click {valueChip("goal 1")}. Click <strong>duplicate</strong>.</li>
       <li>Name the copy {valueChip("goal 2")}.</li>
-      <li>Click goal 2. Keep its blue <strong>go to</strong> position script.</li>
-      <li>Delete the 4 extra scripts from goal 2: setup, timer, speed, and music.</li>
-      <li>Find goal 2&apos;s blue <strong>go to</strong> block.</li>
-      <li>Change x to {valueChip("-112")}. Keep y at {valueChip("-130")}.</li>
+      <li>Right-click goal 1 again. Duplicate it. Name the copy {valueChip("goal 3")}.</li>
+      <li>Right-click goal 1 again. Duplicate it. Name the copy {valueChip("goal 4")}.</li>
+    </ol>
+    <h3>Copy the balls</h3>
+    <ol className="action-list">
       <li>Right-click {valueChip("Ball 1")}. Click <strong>duplicate</strong>.</li>
       <li>Name the copy {valueChip("Ball 2")}.</li>
-      <li>Ball 2 has 3 x numbers. Change all 3 from {valueChip("-190")} to {valueChip("-112")}.</li>
-      <li>Ball 2 has 2 key blocks. Change both from <kbd>D</kbd> to <kbd>F</kbd>.</li>
-      <li>Click the flag. Press F when Ball 2 is inside goal 2.</li>
+      <li>Right-click Ball 1 again. Duplicate it. Name the copy {valueChip("Ball 3")}.</li>
+      <li>Right-click Ball 1 again. Duplicate it. Name the copy {valueChip("Ball 4")}.</li>
     </ol>
-    <div className="copy-checklist"><strong>First, clean goal 2</strong><span>Keep 1 position script</span><span>Delete 4 copied scripts</span></div>
-    <div className="change-count"><strong>Then make 8 changes</strong><span>2 sprite names</span><span>1 goal x number</span><span>3 ball x numbers</span><span>2 ball keys</span></div>
-    <Callout kind="warning" title="Change the blue blocks"><p>Change the x numbers inside the blue blocks. Do not move the sprites by typing in the x and y boxes below the Stage.</p></Callout>
-    <Callout title="Stop and check"><p>You should see 2 rings. Ball 2 should fall into ring 2. F should score for lane 2. D should still score for lane 1.</p></Callout>
+    <div className="copy-checklist"><strong>Stop after copying</strong><span>4 goals</span><span>4 balls</span><span>8 sprites total</span></div>
+    <Callout kind="warning" title="Copy the originals"><p>Always copy goal 1 and Ball 1. Do not copy goal 2, goal 3, Ball 2, or Ball 3.</p></Callout>
+    <Callout title="Stop and check"><p>You should see goal 1, goal 2, goal 3, goal 4, Ball 1, Ball 2, Ball 3, and Ball 4. Do not change positions or keys until step 10.</p></Callout>
   </>;
 
   if (step === 10) return <>
-    <p className="step-intro">Make lane 3. Test it. Then make lane 4. Always copy goal 1 and Ball 1.</p>
+    <p className="step-intro">Now change the copies. Finish one pass before starting the next pass.</p>
+    <h3>Pass 1: Clean and move the goals</h3>
     <ol className="action-list">
-      <li>Copy {valueChip("goal 1")}. Name the copy {valueChip("goal 3")}.</li>
-      <li>On goal 3, keep the position script. Delete setup, timer, speed, and music.</li>
-      <li>Copy {valueChip("Ball 1")}. Name the copy {valueChip("Ball 3")}.</li>
-      <li>Use x {valueChip("-28")} in goal 3 one time.</li>
-      <li>Use x {valueChip("-28")} in Ball 3 three times.</li>
-      <li>Change both Ball 3 key blocks to <kbd>J</kbd>.</li>
-      <li>Click the flag. Test J. Do not continue until lane 3 works.</li>
-      <li>Copy {valueChip("goal 1")}. Name the copy {valueChip("goal 4")}.</li>
-      <li>On goal 4, keep the position script. Delete setup, timer, speed, and music.</li>
-      <li>Copy {valueChip("Ball 1")}. Name the copy {valueChip("Ball 4")}.</li>
-      <li>Use x {valueChip("53")} in goal 4 one time.</li>
-      <li>Use x {valueChip("53")} in Ball 4 three times.</li>
-      <li>Change both Ball 4 key blocks to <kbd>K</kbd>.</li>
-      <li>Click the flag. Test K.</li>
+      <li>Click {valueChip("goal 2")}. Keep its blue position script. Delete the 4 extra scripts from goal 2: setup, timer, speed, and music.</li>
+      <li>In goal 2&apos;s blue block, change x to {valueChip("-112")}.</li>
+      <li>Click {valueChip("goal 3")}. Keep its position script. Delete its other 4 scripts. Change x to {valueChip("-28")}.</li>
+      <li>Click {valueChip("goal 4")}. Keep its position script. Delete its other 4 scripts. Change x to {valueChip("53")}.</li>
+    </ol>
+    <Callout title="Goal check"><p>Goal 1 keeps its position, setup, timer, speed, and music scripts. It has 5 scripts. Goal 2, goal 3, and goal 4 have only 1 position script each.</p></Callout>
+    <h3>Pass 2: Move the balls</h3>
+    <ol className="action-list">
+      <li>Click {valueChip("Ball 2")}. Change its 3 blue x numbers to {valueChip("-112")}.</li>
+      <li>Click {valueChip("Ball 3")}. Change its 3 blue x numbers to {valueChip("-28")}.</li>
+      <li>Click {valueChip("Ball 4")}. Change its 3 blue x numbers to {valueChip("53")}.</li>
+    </ol>
+    <Callout kind="warning" title="Change only the blue blocks"><p>Do not type in the x and y boxes below the Stage. Do not change any y numbers.</p></Callout>
+    <h3>Pass 3: Change the keys</h3>
+    <ol className="action-list">
+      <li>Ball 2 has 2 key blocks. Change both from <kbd>D</kbd> to <kbd>F</kbd>.</li>
+      <li>Ball 3 has 2 key blocks. Change both from <kbd>D</kbd> to <kbd>J</kbd>.</li>
+      <li>Ball 4 has 2 key blocks. Change both from <kbd>D</kbd> to <kbd>K</kbd>.</li>
     </ol>
     <table className="value-table wide"><caption>Numbers and keys for all 4 lanes</caption><thead><tr><th>Lane</th><th>Goal x, 1 time</th><th>Ball x, 3 times</th><th>Key, 2 times</th><th>Goal y</th><th>Ball top / bottom</th><th>Good-hit area</th></tr></thead><tbody>
       <tr><td>1</td><td>-190</td><td>-190</td><td><kbd>D</kbd></td><td>-130</td><td>143 / -180</td><td>-140 to -170</td></tr>
@@ -388,14 +393,13 @@ end
       <tr><td>4</td><td>53</td><td>53</td><td><kbd>K</kbd></td><td>-130</td><td>143 / -180</td><td>-140 to -170</td></tr>
     </tbody></table>
     <figure className="video-demo">
-      <video controls playsInline preload="metadata" aria-label="Silent demonstration of changing both key choices in copied Ball sprites">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of changing both key choices in Ball 2, Ball 3, and Ball 4">
         <source src="/video/change-copied-keys.mp4" type="video/mp4" />
         <track kind="captions" src="/video/change-copied-keys.vtt" srcLang="en" label="English instructions" default />
       </video>
-      <figcaption><strong>Short video:</strong> Open the 2 key menus in each copied ball. Change both keys. The video has no sound. Use the table for the correct key.</figcaption>
+      <figcaption><strong>2-minute key video:</strong> Change only the 2 key menus in each copied ball. Do not change the numbers shown in the video. Use the table above.</figcaption>
     </figure>
-    <div className="change-count"><strong>Each new lane needs cleanup and 8 changes</strong><span>Delete 4 goal scripts</span><span>2 names</span><span>1 goal x number</span><span>3 ball x numbers</span><span>2 keys</span></div>
-    <Callout kind="warning" title="Check every goal"><p>Goal 1 keeps its position, setup, timer, speed, and music scripts. Goals 2, 3, and 4 keep only their position scripts. Click each ball. Delete <strong>set score to 0</strong> if you see it. In the whole project, keep only one setup, one timer, one speed script, and one music script. Keep all four on goal 1.</p></Callout>
+    <Callout title="Stop and test"><p>Click the flag. Test D, F, J, and K. Each ball should fall into its own ring. Each key should score for only one lane.</p></Callout>
     <Callout kind="warning" title="Keep these the same"><p>Do not change the math blocks, random numbers, y numbers, score numbers, or block order in the 4 balls.</p></Callout>
   </>;
 
@@ -547,6 +551,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.11.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.12.0 · Grade 7 prototype</span></footer>
   </main>;
 }

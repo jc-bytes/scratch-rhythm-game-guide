@@ -49,7 +49,7 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.11\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.12\.0:guide-progress/);
   assert.match(guide, /function FinishedProjectInspector/);
   assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
   assert.match(guide, /Position only/);
@@ -78,6 +78,11 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /After 20 seconds, tempo should be near 64/);
   assert.match(guide, /Stay on goal 1\. Make three more <Vocabulary term="scripts"/);
   assert.match(guide, /Delete the 4 extra scripts from goal 2/);
+  assert.match(guide, /Make and name all 6 copies\. Do not change any blocks yet\./);
+  assert.match(guide, /Pass 1: Clean and move the goals/);
+  assert.match(guide, /Pass 2: Move the balls/);
+  assert.match(guide, /Pass 3: Change the keys/);
+  assert.match(guide, /Change both from <kbd>D<\/kbd> to <kbd>F<\/kbd>/);
   assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
   assert.doesNotMatch(guide, /Keep the timer, score reset, tempo, and music on the Stage/);
   assert.match(guide, /sprite<\/strong> is a picture you code/);

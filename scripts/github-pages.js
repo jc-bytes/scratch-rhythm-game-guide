@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.11.0:guide-progress";
+  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.12.0:guide-progress";
   const panels = [...document.querySelectorAll(".step-panel")];
   const stepButtons = [...document.querySelectorAll(".step-sidebar li button")];
   const select = document.querySelector("#step-select");
