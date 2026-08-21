@@ -1,7 +1,7 @@
 (() => {
   "use strict";
 
-  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.4.1:guide-progress";
+  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.5.0:guide-progress";
   const panels = [...document.querySelectorAll(".step-panel")];
   const stepButtons = [...document.querySelectorAll(".step-sidebar li button")];
   const select = document.querySelector("#step-select");
@@ -74,7 +74,7 @@
         option.textContent = `${optionLabels[index]}${completed.includes(index + 1) ? " ✓" : ""}`;
       });
     }
-    if (progressLabel) progressLabel.textContent = `${completed.length} of ${panels.length} steps finished`;
+    if (progressLabel) progressLabel.textContent = `${completed.length} of ${panels.length} steps done`;
     if (sidebarProgress) sidebarProgress.textContent = `${percent}% complete`;
     progressBars.forEach((bar) => {
       bar.style.width = `${percent}%`;
@@ -83,10 +83,10 @@
     if (backButton) backButton.disabled = current === 1;
     if (doneButton) {
       doneButton.textContent = current === panels.length
-        ? (completed.includes(current) ? "Completed" : "Mark project complete")
-        : (completed.includes(current) ? "Next step" : "I finished this step");
+        ? (completed.includes(current) ? "Game is done" : "I finished my game")
+        : (completed.includes(current) ? "Next step" : "I did this step");
     }
-    if (startButton) startButton.textContent = completed.length ? "Continue the guide" : "Start step 1";
+    if (startButton) startButton.textContent = completed.length ? "Keep going" : "Start step 1";
     save();
   }
 
@@ -108,7 +108,7 @@
   startButton?.addEventListener("click", () => goTo(completed.length === panels.length ? 1 : Math.min(panels.length, completed.length + 1)));
   printButton?.addEventListener("click", () => window.print());
   resetButton?.addEventListener("click", () => {
-    if (!window.confirm(`Reset all ${panels.length} completed-step checks on this device?`)) return;
+    if (!window.confirm(`Start over? This will remove all ${panels.length} check marks on this device.`)) return;
     completed = [];
     current = 1;
     render();

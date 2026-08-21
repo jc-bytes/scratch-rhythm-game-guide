@@ -31,8 +31,8 @@ const cssPath = rendered.match(/<link rel="stylesheet" href="([^"]+)"/)?.[1];
 if (!main || !cssPath) throw new Error("The rendered guide is missing its main content or stylesheet.");
 
 const staticMain = main.replace(/\b(src|href)="\/(?!\/)/g, '$1="./');
-const title = "Build a 4-Lane Rhythm Game in Scratch";
-const description = "A complete step-by-step student guide for building a four-lane Scratch rhythm game with D, F, J, and K controls.";
+const title = "Make a 4-Lane Scratch Rhythm Game";
+const description = "Easy steps for making a Scratch rhythm game with D, F, J, and K.";
 const imageUrl = new URL("og.png", publicUrl).href;
 const stylesheet = `.${cssPath}`;
 const html = `<!doctype html>

@@ -16,10 +16,10 @@ test("server-renders the complete Scratch rhythm-game guide", async () => {
   assert.equal(response.status, 200);
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
-  assert.match(html, /<title>Build a 4-Lane Rhythm Game in Scratch<\/title>/i);
-  assert.match(html, /Build two sprites\. Test them\. Then copy\./);
+  assert.match(html, /<title>Make a 4-Lane Scratch Rhythm Game<\/title>/i);
+  assert.match(html, /Make 2 sprites\. Test them\. Then copy them\./);
   assert.match(html, /id="step-12"/);
-  assert.match(html, /Save, reopen, and submit/);
+  assert.match(html, /Save and turn in your game/);
   assert.match(html, /Ball 4/);
   assert.match(html, />K<\/kbd>/);
   assert.match(html, /YourClass_Lastname_Firstname_4-Lane-Rhythm-Game\.sb3/);
@@ -42,16 +42,17 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.4\.1:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.5\.0:guide-progress/);
   assert.match(guide, /pre className="blocks"/);
   assert.match(guide, /scratchblocks\.min\.js/);
   assert.match(guide, /make-goal-ring\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
-  assert.match(guide, /Starting Part 3\?/);
-  assert.match(guide, /Starting Part 4\?/);
-  assert.match(guide, /After about 20 seconds, tempo should be near 64/);
-  assert.match(guide, /Repair projects made from the video/);
-  assert.match(guide, /shared scripts do not get copied four times/);
+  assert.match(guide, /Are you starting Part 3\?/);
+  assert.match(guide, /Are you starting Part 4\?/);
+  assert.match(guide, /After 20 seconds, tempo should be near 64/);
+  assert.match(guide, /Clean up old video projects/);
+  assert.match(guide, /sprite<\/strong> is a picture you code/);
+  assert.doesNotMatch(guide, /controlled playtest|copying phase|temporary x and y fields|Repair projects made/);
   assert.match(guide, /window\.confirm/);
   assert.match(guide, /window\.print/);
   assert.match(css, /@media print/);

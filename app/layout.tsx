@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { headers } from "next/headers";
 import "./globals.css";
 
-const title = "Build a 4-Lane Rhythm Game in Scratch";
-const description = "A complete step-by-step student guide for building a four-lane Scratch rhythm game with D, F, J, and K controls.";
+const title = "Make a 4-Lane Scratch Rhythm Game";
+const description = "Easy steps for making a Scratch rhythm game with D, F, J, and K.";
 
 export async function generateMetadata(): Promise<Metadata> {
   const requestHeaders = await headers();
