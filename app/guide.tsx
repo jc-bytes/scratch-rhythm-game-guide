@@ -1,0 +1,325 @@
+"use client";
+
+import { useEffect, useMemo, useState, type ReactNode } from "react";
+
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.1.0:guide-progress";
+
+const stepNames = [
+  "Prepare Scratch",
+  "Create shared variables",
+  "Build the Stage controller",
+  "Make the first goal",
+  "Make Ball 1",
+  "Make Ball 1 fall",
+  "Add D-key scoring",
+  "Test lane 1",
+  "Copy the goals",
+  "Copy the balls",
+  "Test the whole game",
+  "Save and submit",
+];
+
+type Tone = "events" | "motion" | "looks" | "sound" | "control" | "sensing" | "operators" | "variables" | "music";
+
+function Block({ tone, indent = 0, children }: { tone: Tone; indent?: number; children: ReactNode }) {
+  return <div className={`scratch-block ${tone}`} style={{ marginLeft: `${indent * 22}px` }}>{children}</div>;
+}
+
+function Arg({ children }: { children: ReactNode }) {
+  return <span className="block-arg">{children}</span>;
+}
+
+function Script({ title, children }: { title: string; children: ReactNode }) {
+  return <figure className="script-card"><figcaption>{title}</figcaption><div className="script-stack">{children}</div></figure>;
+}
+
+function Callout({ kind = "check", title, children }: { kind?: "check" | "tip" | "warning"; title: string; children: ReactNode }) {
+  return <aside className={`callout ${kind}`}><strong>{title}</strong><div>{children}</div></aside>;
+}
+
+const valueChip = (value: string) => <code>{value}</code>;
+
+function StepContent({ step }: { step: number }) {
+  if (step === 1) return <>
+    <p className="step-intro">Begin with a blank project. Do not copy any sprites yet.</p>
+    <ol className="action-list">
+      <li>Open <a href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noreferrer">Scratch Create</a>.</li>
+      <li>Click the trash can on the cat sprite.</li>
+      <li>Click <strong>Add Extension</strong> at the bottom left.</li>
+      <li>Choose <strong>Music</strong>. A green Music category should appear.</li>
+      <li>Use <strong>File → Save to your computer</strong>. Name the file <code>4-Lane Rhythm Game - Your Name.sb3</code>.</li>
+    </ol>
+    <Callout title="Checkpoint"><p>You should have an empty white Stage, no cat, and a green Music category.</p></Callout>
+  </>;
+
+  if (step === 2) return <>
+    <p className="step-intro">The Stage will control the parts shared by every lane. This keeps the timer and music from being copied four times.</p>
+    <ol className="action-list">
+      <li>Click <strong>Variables</strong>, then <strong>Make a Variable</strong>.</li>
+      <li>Create {valueChip("time")} for all sprites.</li>
+      <li>Create {valueChip("score")} for all sprites.</li>
+      <li>Keep both variable checkboxes selected so the values show on the Stage.</li>
+      <li>Click the <strong>Stage</strong> thumbnail. Build this setup script on the Stage.</li>
+    </ol>
+    <Script title="Stage setup">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="variables">set <Arg>time</Arg> to <Arg>0</Arg></Block>
+      <Block tone="variables">set <Arg>score</Arg> to <Arg>0</Arg></Block>
+      <Block tone="music">set tempo to <Arg>60</Arg></Block>
+    </Script>
+    <Callout kind="warning" title="Keep shared code on the Stage"><p>Do not put the score reset, timer, or drum loop on a goal or ball. Those sprites will be duplicated later.</p></Callout>
+  </>;
+
+  if (step === 3) return <>
+    <p className="step-intro">Stay on the Stage. Make these three separate scripts. They all start with their own green-flag block.</p>
+    <div className="script-grid">
+      <Script title="Timer">
+        <Block tone="events">when green flag clicked</Block>
+        <Block tone="control">forever</Block>
+        <Block tone="variables" indent={1}>change <Arg>time</Arg> by <Arg>1</Arg></Block>
+        <Block tone="control" indent={1}>wait <Arg>1</Arg> seconds</Block>
+      </Script>
+      <Script title="Speed up slowly">
+        <Block tone="events">when green flag clicked</Block>
+        <Block tone="control">forever</Block>
+        <Block tone="control" indent={1}>wait <Arg>5</Arg> seconds</Block>
+        <Block tone="music" indent={1}>change tempo by <Arg>1</Arg></Block>
+      </Script>
+    </div>
+    <Script title="Drum pattern. Put all eight drum blocks inside forever.">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="control">forever</Block>
+      <Block tone="music" indent={1}>play drum <Arg>2 Bass Drum</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>1 Snare Drum</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>2 Bass Drum</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>1 Snare Drum</Arg> for <Arg>0.5</Arg> beats</Block>
+      <Block tone="music" indent={1}>play drum <Arg>6 Closed Hi-Hat</Arg> for <Arg>0.5</Arg> beats</Block>
+    </Script>
+    <Callout title="Quick test"><p>Click the green flag. You should hear a repeating beat, time should count by ones, and the tempo should rise by one after five seconds.</p></Callout>
+  </>;
+
+  if (step === 4) return <>
+    <p className="step-intro">The goal is the ring at the bottom of lane 1.</p>
+    <ol className="action-list">
+      <li>Click <strong>Paint a Sprite</strong>.</li>
+      <li>Choose the circle tool. Turn off fill and choose an orange outline.</li>
+      <li>Hold <kbd>Shift</kbd> while drawing a circle.</li>
+      <li>Rename the sprite {valueChip("goal 1")}.</li>
+      <li>Set its size to {valueChip("150")}.</li>
+      <li>Add the script below. It places the ring at the bottom-left when the game starts.</li>
+    </ol>
+    <Script title="goal 1 position">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>-130</Arg></Block>
+    </Script>
+    <div className="mini-stage" aria-label="Goal 1 near the bottom left of the Scratch Stage"><span className="mini-goal" /><span className="coordinate">x -190<br/>y -130</span></div>
+    <Callout title="Checkpoint"><p>Click the flag. The orange ring should sit near the bottom-left edge of the Stage.</p></Callout>
+  </>;
+
+  if (step === 5) return <>
+    <p className="step-intro">Now make the falling note for the first lane.</p>
+    <ol className="action-list">
+      <li>Choose the <strong>Ball</strong> sprite from the Scratch library, or paint a filled orange circle.</li>
+      <li>Rename it {valueChip("Ball 1")}.</li>
+      <li>Set its size to {valueChip("150")}.</li>
+      <li>Add this separate starting-position script.</li>
+    </ol>
+    <Script title="Ball 1 starts above goal 1">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>143</Arg></Block>
+    </Script>
+    <Callout kind="tip" title="Match the lane"><p>Ball 1 and goal 1 use the same x value, <strong>-190</strong>. Only their y values are different.</p></Callout>
+  </>;
+
+  if (step === 6) return <>
+    <p className="step-intro">Build one complete falling loop on Ball 1. The round reporter blocks go inside the white spaces.</p>
+    <Script title="Ball 1 falling loop">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="looks">show</Block>
+      <Block tone="control">forever</Block>
+      <Block tone="motion" indent={1}>glide <Arg>180 ÷ tempo</Arg> seconds to x: <Arg>-190</Arg> y: <Arg>-180</Arg></Block>
+      <Block tone="control" indent={1}>if <Arg>y position &lt; -179</Arg> then</Block>
+      <Block tone="looks" indent={2}>hide</Block>
+      <Block tone="control" indent={2}>wait <Arg>pick random 6 to 600 ÷ tempo</Arg> seconds</Block>
+      <Block tone="looks" indent={2}>show</Block>
+      <Block tone="motion" indent={2}>go to x: <Arg>-190</Arg> y: <Arg>143</Arg></Block>
+    </Script>
+    <div className="recipe-grid">
+      <article><span className="recipe-category operators">Operators</span><h3>Falling time</h3><p>Put <strong>180</strong> on the left of divide and <strong>tempo</strong> on the right.</p></article>
+      <article><span className="recipe-category operators">Operators</span><h3>Random pause</h3><p>Put <strong>pick random 6 to 600</strong> on the left of divide and <strong>tempo</strong> on the right.</p></article>
+      <article><span className="recipe-category motion">Motion</span><h3>Reset position</h3><p>Every x value in Ball 1 is <strong>-190</strong>. The top y value is <strong>143</strong>.</p></article>
+    </div>
+    <Callout title="Quick test"><p>Click the flag. Ball 1 should fall through the ring, disappear, pause, and return to the top.</p></Callout>
+  </>;
+
+  if (step === 7) return <>
+    <p className="step-intro">This script gives one point when D is pressed while the ball is inside the goal. An early or late press removes one point.</p>
+    <Script title="Ball 1 scoring loop">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="control">forever</Block>
+      <Block tone="control" indent={1}>wait until <Arg>not key d pressed?</Arg></Block>
+      <Block tone="control" indent={1}>wait until <Arg>key d pressed?</Arg></Block>
+      <Block tone="control" indent={1}>if <Arg>y position &lt; -140 and y position &gt; -170</Arg> then</Block>
+      <Block tone="variables" indent={2}>change <Arg>score</Arg> by <Arg>1</Arg></Block>
+      <Block tone="control" indent={1}>else</Block>
+      <Block tone="variables" indent={2}>change <Arg>score</Arg> by <Arg>-1</Arg></Block>
+    </Script>
+    <Callout kind="tip" title="Why wait twice?"><p>The first wait makes Scratch wait for D to be released. The second waits for the next press. Holding D cannot score over and over.</p></Callout>
+    <Callout title="The hit zone"><p>The ball scores only while its y position is below <strong>-140</strong> and above <strong>-170</strong>.</p></Callout>
+  </>;
+
+  if (step === 8) return <>
+    <p className="step-intro">Do not copy a broken lane. Test goal 1 and Ball 1 before moving on.</p>
+    <ul className="test-list">
+      <li><span>1</span>Click the green flag. Ball 1 begins at the top of goal 1&apos;s lane.</li>
+      <li><span>2</span>Press <kbd>D</kbd> while the ball overlaps the ring. Score rises by 1.</li>
+      <li><span>3</span>Press <kbd>D</kbd> too early. Score drops by 1.</li>
+      <li><span>4</span>Hold <kbd>D</kbd>. It should count only one press.</li>
+      <li><span>5</span>Wait for the ball to disappear and return.</li>
+      <li><span>6</span>Stop and start again. Time and score return to 0.</li>
+    </ul>
+    <Callout kind="warning" title="Fix lane 1 now"><p>If any check fails, return to steps 4 through 7. Compare every number and block order before duplicating.</p></Callout>
+  </>;
+
+  if (step === 9) return <>
+    <p className="step-intro">Lane 1 works. Copy its goal ring three times.</p>
+    <ol className="action-list">
+      <li>Right-click {valueChip("goal 1")} and choose <strong>duplicate</strong>.</li>
+      <li>Rename the copy {valueChip("goal 2")}.</li>
+      <li>Duplicate goal 2 twice to make {valueChip("goal 3")} and {valueChip("goal 4")}.</li>
+      <li>Change the x value in each copy&apos;s blue <strong>go to</strong> block. Keep y at <strong>-130</strong>.</li>
+    </ol>
+    <table className="value-table"><caption>Goal positions</caption><thead><tr><th>Sprite</th><th>x</th><th>y</th></tr></thead><tbody>
+      <tr><td>goal 1</td><td>-190</td><td>-130</td></tr><tr><td>goal 2</td><td>-112</td><td>-130</td></tr><tr><td>goal 3</td><td>-28</td><td>-130</td></tr><tr><td>goal 4</td><td>53</td><td>-130</td></tr>
+    </tbody></table>
+    <Callout title="Checkpoint"><p>Click the flag. You should see four rings in one row near the bottom of the Stage.</p></Callout>
+  </>;
+
+  if (step === 10) return <>
+    <p className="step-intro">Copy Ball 1 three times. In each copy, change only the name, all three x values, and both key blocks.</p>
+    <ol className="action-list">
+      <li>Duplicate {valueChip("Ball 1")} and rename the copy {valueChip("Ball 2")}.</li>
+      <li>Duplicate again for {valueChip("Ball 3")} and {valueChip("Ball 4")}.</li>
+      <li>Use the table below. Check each copied script from top to bottom.</li>
+    </ol>
+    <table className="value-table wide"><caption>Values to change in each ball</caption><thead><tr><th>Sprite</th><th>Key, in 2 blocks</th><th>x, in 3 blocks</th><th>Top y</th><th>Bottom y</th><th>Hit zone</th></tr></thead><tbody>
+      <tr><td>Ball 1</td><td><kbd>D</kbd></td><td>-190</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
+      <tr><td>Ball 2</td><td><kbd>F</kbd></td><td>-112</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
+      <tr><td>Ball 3</td><td><kbd>J</kbd></td><td>-28</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
+      <tr><td>Ball 4</td><td><kbd>K</kbd></td><td>53</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
+    </tbody></table>
+    <div className="change-count"><strong>For each copied ball, make 5 edits:</strong><span>3 x values</span><span>2 key choices</span></div>
+    <Callout kind="warning" title="Do not change these"><p>Keep the tempo formulas, random numbers, y values, score changes, and block order the same in all four balls.</p></Callout>
+  </>;
+
+  if (step === 11) return <>
+    <p className="step-intro">Run the complete game. Test one fact at a time.</p>
+    <div className="key-map" aria-label="Lane controls"><span><kbd>D</kbd> lane 1</span><span><kbd>F</kbd> lane 2</span><span><kbd>J</kbd> lane 3</span><span><kbd>K</kbd> lane 4</span></div>
+    <ul className="test-list">
+      <li><span>1</span>Each ball falls directly toward its own ring.</li>
+      <li><span>2</span>D, F, J, and K control the matching lanes.</li>
+      <li><span>3</span>A well-timed press adds 1. A poor press removes 1.</li>
+      <li><span>4</span>Time rises once per second, not four times per second.</li>
+      <li><span>5</span>Only one drum pattern plays.</li>
+      <li><span>6</span>The balls return after different random pauses.</li>
+      <li><span>7</span>The game becomes slightly faster over time.</li>
+    </ul>
+    <div className="debug-grid">
+      <article><h3>Ball misses its ring</h3><p>Match all three x values to the lane table in step 10.</p></article>
+      <article><h3>Wrong key scores</h3><p>Change both key blocks inside that ball&apos;s scoring script.</p></article>
+      <article><h3>Timer runs too fast</h3><p>Remove timer scripts from sprites. Keep one timer on the Stage.</p></article>
+      <article><h3>Music sounds stacked</h3><p>Remove drum loops from sprites. Keep one drum loop on the Stage.</p></article>
+      <article><h3>Score changes many times</h3><p>Check that <strong>wait until not key pressed</strong> comes before <strong>wait until key pressed</strong>.</p></article>
+      <article><h3>Ball never returns</h3><p>Put hide, wait, show, and go to inside the if block in that order.</p></article>
+    </div>
+  </>;
+
+  return <>
+    <p className="step-intro">Save the working project before you close Scratch.</p>
+    <ol className="action-list">
+      <li>Click <strong>File → Save to your computer</strong>.</li>
+      <li>Name it <code>YourClass_Lastname_Firstname_4-Lane-Rhythm-Game.sb3</code>.</li>
+      <li>Open the downloaded file once. Confirm that Scratch loads all nine sprites: four goals, four balls, and the Stage.</li>
+      <li>Run one final D, F, J, K test.</li>
+      <li>Submit the <strong>.sb3 file</strong> where your teacher instructed.</li>
+    </ol>
+    <div className="finish-card"><p className="eyebrow">Finished project</p><h3>Your game needs all of these</h3><ul><li>Four aligned lanes</li><li>D, F, J, and K controls</li><li>Score and time</li><li>Repeating drum beat</li><li>Random note delays</li><li>Gradual speed increase</li><li>A saved .sb3 file that opens</li></ul></div>
+    <details className="extension"><summary>Finished early? Try one extension</summary><ul><li>Give each lane a different color.</li><li>Add a start screen before the game begins.</li><li>Play a short sound for a correct hit.</li><li>Add a 60-second game-over screen.</li></ul></details>
+  </>;
+}
+
+export default function Guide() {
+  const [current, setCurrent] = useState(1);
+  const [completed, setCompleted] = useState<number[]>([]);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    queueMicrotask(() => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+        if (saved && Array.isArray(saved.completed)) setCompleted(saved.completed.filter((n: unknown) => typeof n === "number" && n >= 1 && n <= 12));
+        if (saved && typeof saved.current === "number") setCurrent(Math.min(12, Math.max(1, saved.current)));
+      } catch { /* Keep the guide usable if browser storage is blocked. */ }
+      setLoaded(true);
+    });
+  }, []);
+
+  useEffect(() => {
+    if (!loaded) return;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({ current, completed }));
+  }, [current, completed, loaded]);
+
+  const percent = useMemo(() => Math.round((completed.length / 12) * 100), [completed]);
+
+  function goTo(step: number) {
+    setCurrent(step);
+    requestAnimationFrame(() => document.querySelector(".guide-shell")?.scrollIntoView({ behavior: "smooth", block: "start" }));
+  }
+
+  function finishAndContinue() {
+    setCompleted((old) => old.includes(current) ? old : [...old, current].sort((a, b) => a - b));
+    if (current < 12) goTo(current + 1);
+  }
+
+  function resetProgress() {
+    if (!window.confirm("Reset all 12 completed-step checks on this device?")) return;
+    setCompleted([]);
+    setCurrent(1);
+  }
+
+  return <main>
+    <header className="hero">
+      <nav aria-label="Guide progress"><span className="brand">Scratch build guide</span><span className="progress-label">{completed.length} of 12 steps finished</span></nav>
+      <div className="hero-grid">
+        <div><p className="eyebrow">Grade 7 Technology</p><h1>Build a 4-lane rhythm game</h1><p className="lede">Start with a blank Scratch project. Build one goal and one falling ball carefully. When that lane works, copy it three times.</p><button className="start-button" onClick={() => goTo(completed.length === 12 ? 1 : Math.min(12, completed.length + 1))}>{completed.length ? "Continue the guide" : "Start step 1"}</button></div>
+        <div className="game-preview" aria-label="Four game lanes controlled by D, F, J, and K">{[["D", "#ffca3a"], ["F", "#ff924c"], ["J", "#ff595e"], ["K", "#8ac926"]].map(([key, color], index) => <div className="lane" key={key}><span className="falling-ball" style={{ background: color, animationDelay: `${index * .25}s` }} /><span className="goal-ring" style={{ borderColor: color }} /><kbd>{key}</kbd></div>)}</div>
+      </div>
+    </header>
+
+    <section className="principle"><p className="eyebrow">The plan</p><h2>Build two sprites. Test them. Then copy.</h2><p>Goal 1 teaches the target position. Ball 1 teaches falling, timing, keyboard input, and score. The other six sprites reuse that tested pattern.</p></section>
+
+    <section className="guide-shell" aria-label="Step-by-step project guide">
+      <aside className="step-sidebar">
+        <div className="progress-track" aria-label={`${percent}% complete`}><span style={{ width: `${percent}%` }} /></div>
+        <p className="sidebar-progress">{percent}% complete</p>
+        <ol>{stepNames.map((name, index) => { const number = index + 1; return <li key={name}><button className={current === number ? "current" : ""} onClick={() => goTo(number)} aria-current={current === number ? "step" : undefined}><span className={completed.includes(number) ? "done" : ""}>{completed.includes(number) ? "✓" : number}</span>{name}</button></li>; })}</ol>
+        <button className="quiet-button" onClick={() => window.print()}>Print all steps</button>
+        <button className="quiet-button reset" onClick={resetProgress}>Reset progress</button>
+      </aside>
+
+      <div className="step-workspace">
+        <div className="mobile-progress"><label htmlFor="step-select">Go to a step</label><select id="step-select" value={current} onChange={(event) => goTo(Number(event.target.value))}>{stepNames.map((name, index) => <option value={index + 1} key={name}>{index + 1}. {name}{completed.includes(index + 1) ? " ✓" : ""}</option>)}</select><div className="progress-track"><span style={{ width: `${percent}%` }} /></div></div>
+        {stepNames.map((name, index) => { const number = index + 1; return <article id={`step-${number}`} key={name} className={`step-panel ${current === number ? "active" : ""}`} aria-labelledby={`step-${number}-title`} aria-hidden={current !== number}>
+          <div className="step-heading"><p className="eyebrow">Step {number} of 12</p><h2 id={`step-${number}-title`}>{name}</h2></div>
+          <StepContent step={number} />
+        </article>; })}
+        <div className="step-controls"><button className="back-button" disabled={current === 1} onClick={() => goTo(current - 1)}>Previous step</button><button className="done-button" onClick={finishAndContinue}>{current === 12 ? (completed.includes(12) ? "Completed" : "Mark project complete") : (completed.includes(current) ? "Next step" : "I finished this step")}</button></div>
+        <p className="storage-note">Progress saves only in this browser on this device. Your Scratch project must still be saved as an .sb3 file.</p>
+      </div>
+    </section>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.1.0 · Grade 7 prototype</span></footer>
+  </main>;
+}

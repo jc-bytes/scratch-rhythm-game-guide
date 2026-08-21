@@ -1,0 +1,46 @@
+{
+  "id": "MOD-SCRATCH-RHYTHM-01",
+  "title": "Build a 4-Lane Rhythm Game in Scratch",
+  "slug": "scratch-rhythm-game",
+  "version": "0.1.0",
+  "status": "prototype",
+  "gradeRange": ["7"],
+  "track": "Foundation and Core",
+  "prerequisites": [
+    "Open Scratch and save a project",
+    "Drag, connect, and edit Scratch blocks"
+  ],
+  "objectives": [
+    "Build and test one complete rhythm-game lane before duplicating it.",
+    "Use variables, loops, conditions, operators, keyboard input, and the Music extension in a working game.",
+    "Duplicate a tested sprite pattern and change only the lane position and control key."
+  ],
+  "evidence": [
+    "Saved .sb3 project with four working lanes",
+    "Visible score and time variables",
+    "Completed test checklist"
+  ],
+  "estimatedMinutes": 120,
+  "sections": ["START-01", "CONTROLLER-01", "LANE-01", "DUPLICATE-01", "TEST-SUBMIT-01"],
+  "sourcePath": "standalone-sites/osu-like-scratch-game-guide",
+  "publishedUrl": null,
+  "lastReviewed": "2026-08-20",
+  "owner": "Porfirio Rios",
+  "requirements": {
+    "device": "Computer or Chromebook with a keyboard",
+    "software": "Scratch online or Scratch Desktop",
+    "account": "No account required when students use File > Save to your computer",
+    "internet": "Required for Scratch online and the published guide",
+    "storage": "Guide progress remains in this browser and device",
+    "offline": "Print the guide before class and use Scratch Desktop. Students submit the saved .sb3 file."
+  },
+  "accessibility": [
+    "Keyboard-accessible step controls",
+    "Visible focus",
+    "Semantic headings and lists",
+    "Text labels accompany all category colors",
+    "Reduced-motion support",
+    "Printable complete guide"
+  ],
+  "formalAssessment": "Use separate teacher directions and a rubric if the project receives a formal grade."
+}
