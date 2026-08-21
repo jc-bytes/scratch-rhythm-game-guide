@@ -42,13 +42,18 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.2\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.3\.0:guide-progress/);
   assert.match(guide, /make-goal-ring\.mp4/);
+  assert.match(guide, /change-copied-keys\.mp4/);
+  assert.match(guide, /Starting Part 3\?/);
+  assert.match(guide, /Repair projects made from the video/);
   assert.match(guide, /shared scripts do not get copied four times/);
   assert.match(guide, /window\.confirm/);
   assert.match(guide, /window\.print/);
   assert.match(css, /@media print/);
   assert.match(css, /prefers-reduced-motion/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
+  await access(new URL("../public/video/change-copied-keys.mp4", import.meta.url));
+  await access(new URL("../public/video/change-copied-keys.vtt", import.meta.url));
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });

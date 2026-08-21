@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.2.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.3.0:guide-progress";
 
 const stepNames = [
   "Prepare Scratch",
@@ -13,8 +13,8 @@ const stepNames = [
   "Make Ball 1 fall",
   "Add D-key scoring",
   "Test lane 1",
-  "Copy the goals",
-  "Copy the balls",
+  "Copy and test lane 2",
+  "Copy and test lanes 3 and 4",
   "Test the whole game",
   "Save and submit",
 ];
@@ -193,33 +193,47 @@ function StepContent({ step }: { step: number }) {
   </>;
 
   if (step === 9) return <>
-    <p className="step-intro">Lane 1 works. Copy its goal ring three times.</p>
+    <p className="step-intro">Make one complete copy of lane 1. Finish every edit for lane 2, then test F before making more sprites.</p>
+    <Callout kind="tip" title="Starting Part 3?"><p>Run the six checks in step 8 first. If lane 1 passes, return here and begin the copying phase.</p></Callout>
     <ol className="action-list">
       <li>Right-click {valueChip("goal 1")} and choose <strong>duplicate</strong>.</li>
       <li>Rename the copy {valueChip("goal 2")}.</li>
-      <li>Duplicate goal 2 twice to make {valueChip("goal 3")} and {valueChip("goal 4")}.</li>
-      <li>Change the x value in each copy&apos;s blue <strong>go to</strong> block. Keep y at <strong>-130</strong>.</li>
+      <li>In goal 2&apos;s blue <strong>go to</strong> block, change x to {valueChip("-112")}. Keep y at {valueChip("-130")}.</li>
+      <li>Right-click {valueChip("Ball 1")}, duplicate it, and rename the copy {valueChip("Ball 2")}.</li>
+      <li>In Ball 2, change all <strong>three</strong> x values from {valueChip("-190")} to {valueChip("-112")}.</li>
+      <li>Change both key choices from <kbd>D</kbd> to <kbd>F</kbd>.</li>
+      <li>Click the flag. Press F when Ball 2 overlaps goal 2. Fix lane 2 before continuing.</li>
     </ol>
-    <table className="value-table"><caption>Goal positions</caption><thead><tr><th>Sprite</th><th>x</th><th>y</th></tr></thead><tbody>
-      <tr><td>goal 1</td><td>-190</td><td>-130</td></tr><tr><td>goal 2</td><td>-112</td><td>-130</td></tr><tr><td>goal 3</td><td>-28</td><td>-130</td></tr><tr><td>goal 4</td><td>53</td><td>-130</td></tr>
-    </tbody></table>
-    <Callout title="Checkpoint"><p>Click the flag. You should see four rings in one row near the bottom of the Stage.</p></Callout>
+    <div className="copy-checklist"><strong>Lane 2 is finished when you make these 8 edits</strong><span>2 sprite names</span><span>1 goal x value</span><span>3 ball x values</span><span>2 ball key choices</span></div>
+    <Callout kind="warning" title="Edit the scripts"><p>Change the numbers inside the blue blocks. Do not use the temporary x and y fields below the Stage to position the copied sprites.</p></Callout>
+    <Callout title="Lane 2 checkpoint"><p>The flag places two rings in a row. Ball 2 falls through the second ring, F scores that lane, and D still scores only lane 1.</p></Callout>
   </>;
 
   if (step === 10) return <>
-    <p className="step-intro">Copy Ball 1 three times. In each copy, change only the name, all three x values, and both key blocks.</p>
+    <p className="step-intro">Repeat the lane 2 process twice. Always copy the tested lane 1 sprites, then finish and test one new lane at a time.</p>
     <ol className="action-list">
-      <li>Duplicate {valueChip("Ball 1")} and rename the copy {valueChip("Ball 2")}.</li>
-      <li>Duplicate again for {valueChip("Ball 3")} and {valueChip("Ball 4")}.</li>
-      <li>Use the table below. Check each copied script from top to bottom.</li>
+      <li>Duplicate {valueChip("goal 1")} and {valueChip("Ball 1")} to make {valueChip("goal 3")} and {valueChip("Ball 3")}.</li>
+      <li>Use x {valueChip("-28")} in the goal once and in Ball 3 three times. Change both Ball 3 keys to <kbd>J</kbd>.</li>
+      <li>Click the flag and test J. Continue only when lane 3 works.</li>
+      <li>Duplicate {valueChip("goal 1")} and {valueChip("Ball 1")} again to make {valueChip("goal 4")} and {valueChip("Ball 4")}.</li>
+      <li>Use x {valueChip("53")} in the goal once and in Ball 4 three times. Change both Ball 4 keys to <kbd>K</kbd>.</li>
+      <li>Click the flag and test K.</li>
     </ol>
-    <table className="value-table wide"><caption>Values to change in each ball</caption><thead><tr><th>Sprite</th><th>Key, in 2 blocks</th><th>x, in 3 blocks</th><th>Top y</th><th>Bottom y</th><th>Hit zone</th></tr></thead><tbody>
-      <tr><td>Ball 1</td><td><kbd>D</kbd></td><td>-190</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
-      <tr><td>Ball 2</td><td><kbd>F</kbd></td><td>-112</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
-      <tr><td>Ball 3</td><td><kbd>J</kbd></td><td>-28</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
-      <tr><td>Ball 4</td><td><kbd>K</kbd></td><td>53</td><td>143</td><td>-180</td><td>-140 to -170</td></tr>
+    <table className="value-table wide"><caption>Final values for all four lanes</caption><thead><tr><th>Lane</th><th>Goal x, once</th><th>Ball x, 3 blocks</th><th>Key, 2 blocks</th><th>Goal y</th><th>Ball top / bottom</th><th>Hit zone</th></tr></thead><tbody>
+      <tr><td>1</td><td>-190</td><td>-190</td><td><kbd>D</kbd></td><td>-130</td><td>143 / -180</td><td>-140 to -170</td></tr>
+      <tr><td>2</td><td>-112</td><td>-112</td><td><kbd>F</kbd></td><td>-130</td><td>143 / -180</td><td>-140 to -170</td></tr>
+      <tr><td>3</td><td>-28</td><td>-28</td><td><kbd>J</kbd></td><td>-130</td><td>143 / -180</td><td>-140 to -170</td></tr>
+      <tr><td>4</td><td>53</td><td>53</td><td><kbd>K</kbd></td><td>-130</td><td>143 / -180</td><td>-140 to -170</td></tr>
     </tbody></table>
-    <div className="change-count"><strong>For each copied ball, make 5 edits:</strong><span>3 x values</span><span>2 key choices</span></div>
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of changing both key choices in copied Ball sprites">
+        <source src="/video/change-copied-keys.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/change-copied-keys.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>31-second video check:</strong> open each copied key menu and change both key blocks. The clip is faster than the original recording and has no audio. Use the table above for the correct key in each lane.</figcaption>
+    </figure>
+    <div className="change-count"><strong>For every copied lane, make 8 edits:</strong><span>2 names</span><span>1 goal x value</span><span>3 ball x values</span><span>2 key choices</span></div>
+    <Callout kind="warning" title="Repair projects made from the video"><p>Each goal sprite should have only its green-flag position script. Delete timer, tempo, and drum scripts from goal 1 through goal 4. On every ball, remove <strong>set score to 0</strong> from the scoring script. Keep one score reset, one timer, one speed-up script, and one drum loop on the Stage.</p></Callout>
     <Callout kind="warning" title="Do not change these"><p>Keep the tempo formulas, random numbers, y values, score changes, and block order the same in all four balls.</p></Callout>
   </>;
 
@@ -328,6 +342,6 @@ export default function Guide() {
         <p className="storage-note">Progress saves only in this browser on this device. Your Scratch project must still be saved as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.2.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.3.0 · Grade 7 prototype</span></footer>
   </main>;
 }

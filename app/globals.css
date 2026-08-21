@@ -132,6 +132,8 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 .value-table tr:nth-child(even) td { background: #fbfaff; }
 .change-count { display: flex; flex-wrap: wrap; gap: 10px; align-items: center; margin: 22px 0; padding: 17px; border-radius: 12px; background: #eeeaff; }
 .change-count span { padding: 6px 10px; border-radius: 999px; background: white; color: var(--violet-dark); font-weight: 800; }
+.copy-checklist { display: grid; grid-template-columns: 1.6fr repeat(4, auto); gap: 10px; align-items: center; margin: 24px 0; padding: 17px; border: 1px solid #cfc5f3; border-radius: 12px; background: #f4f1ff; }
+.copy-checklist span { padding: 8px 10px; border-radius: 9px; background: white; color: var(--violet-dark); font-weight: 800; text-align: center; }
 .key-map { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 20px 0 28px; }
 .key-map span { display: flex; align-items: center; justify-content: center; gap: 9px; padding: 15px; border-radius: 11px; background: #292044; color: white; font-weight: 800; }
 .finish-card { margin: 28px 0; padding: 30px; border-radius: 18px; background: linear-gradient(135deg, #352279, #714fe7); color: white; }
@@ -183,6 +185,8 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .recipe-grid, .debug-grid { grid-template-columns: 1fr; }
   .value-table.wide { display: block; overflow-x: auto; white-space: nowrap; }
   .key-map { grid-template-columns: 1fr 1fr; }
+  .copy-checklist { grid-template-columns: 1fr 1fr; }
+  .copy-checklist strong { grid-column: 1 / -1; }
   .finish-card ul { columns: 1; }
   .step-controls { flex-direction: column-reverse; }
   .step-controls button { width: 100%; }
