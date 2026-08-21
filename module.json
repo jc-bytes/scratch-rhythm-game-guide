@@ -23,7 +23,7 @@
   "estimatedMinutes": 120,
   "sections": ["START-01", "CONTROLLER-01", "LANE-01", "DUPLICATE-01", "TEST-SUBMIT-01"],
   "sourcePath": "standalone-sites/osu-like-scratch-game-guide",
-  "publishedUrl": null,
+  "publishedUrl": "https://scratch-rhythm-game-guide.pjriosc591103.chatgpt.site",
   "lastReviewed": "2026-08-20",
   "owner": "Porfirio Rios",
   "requirements": {
