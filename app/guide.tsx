@@ -187,11 +187,11 @@ set [score v] to (0)
 set tempo to (60) :: music
     `} />
     <figure className="video-demo">
-      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making the time and score variables">
-        <source src="/video/make-variables.mp4" type="video/mp4" />
-        <track kind="captions" src="/video/make-variables.vtt" srcLang="en" label="English instructions" default />
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making the time and score variables and the Goal 1 setup script">
+        <source src="/video/make-score-and-time.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-score-and-time.vtt" srcLang="en" label="English instructions" default />
       </video>
-      <figcaption><strong>30-second video:</strong> Make time and score. Choose For all sprites. The video has no sound. Pause after each action.</figcaption>
+      <figcaption><strong>1-minute video:</strong> Make time and score. Then make the complete 4-block setup on goal 1. The video has no sound. Pause after each action.</figcaption>
     </figure>
     <Callout kind="warning" title="Keep this on goal 1"><p>Do not put another copy on a ball. Goal 1 will control the score, time, <Vocabulary term="tempo" meaning="The music speed number. A bigger number makes the game faster." />, and music.</p></Callout>
   </>;

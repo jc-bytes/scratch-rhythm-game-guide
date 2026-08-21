@@ -71,7 +71,8 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /pre className="blocks"/);
   assert.match(guide, /scratchblocks\.min\.js/);
   assert.match(guide, /make-goal-ring\.mp4/);
-  assert.match(guide, /make-variables\.mp4/);
+  assert.match(guide, /make-score-and-time\.mp4/);
+  assert.match(guide, /complete 4-block setup on goal 1/);
   assert.match(guide, /make-goal-controller\.mp4/);
   assert.match(guide, /position-lane-1\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
@@ -104,8 +105,9 @@ test("finished site has local progress, print support, and no starter preview", 
   await access(new URL("../public/video/change-copied-keys.vtt", import.meta.url));
   await access(new URL("../public/video/make-goal-ring.mp4", import.meta.url));
   await access(new URL("../public/video/make-goal-ring.vtt", import.meta.url));
-  await access(new URL("../public/video/make-variables.mp4", import.meta.url));
-  await access(new URL("../public/video/make-variables.vtt", import.meta.url));
+  await access(new URL("../public/video/make-score-and-time.mp4", import.meta.url));
+  await access(new URL("../public/video/make-score-and-time.vtt", import.meta.url));
+  await assert.rejects(access(new URL("../public/video/make-variables.mp4", import.meta.url)));
   await access(new URL("../public/video/make-goal-controller.mp4", import.meta.url));
   await access(new URL("../public/video/make-goal-controller.vtt", import.meta.url));
   await access(new URL("../public/video/position-lane-1.mp4", import.meta.url));
