@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.9.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.10.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -171,6 +171,13 @@ set [time v] to (0)
 set [score v] to (0)
 set tempo to (60) :: music
     `} />
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making the time and score variables">
+        <source src="/video/make-variables.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-variables.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>30-second video:</strong> Make time and score. Choose For all sprites. The video has no sound. Pause after each action.</figcaption>
+    </figure>
     <Callout kind="warning" title="Keep this on goal 1"><p>Do not put another copy on a ball. Goal 1 will control the score, time, <Vocabulary term="tempo" meaning="The music speed number. A bigger number makes the game faster." />, and music.</p></Callout>
   </>;
 
@@ -205,6 +212,13 @@ forever
   play drum (6 v) for (0.5) beats :: music
 end
     `} />
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making the Goal 1 setup, timer, speed, and music scripts">
+        <source src="/video/make-goal-controller.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-goal-controller.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>4-minute video:</strong> Make the 4 separate scripts on goal 1. The video has no sound. Pause after each script.</figcaption>
+    </figure>
     <Callout title="Stop and check"><p>Goal 1 should have 4 scripts: setup, timer, speed, and music. Click the green flag. You should hear drums. Time should go up by 1 each second. Tempo should go up by 1 after 5 seconds.</p></Callout>
   </>;
 
@@ -222,11 +236,11 @@ end
       <li>Keep the goal size at {valueChip("150")}.</li>
     </ol>
     <figure className="video-demo">
-      <video controls playsInline preload="metadata" aria-label="Silent demonstration of changing a duplicated Ball sprite into an orange goal ring">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making Ball 1 and goal 1">
         <source src="/video/make-goal-ring.mp4" type="video/mp4" />
         <track kind="captions" src="/video/make-goal-ring.vtt" srcLang="en" label="English instructions" default />
       </video>
-      <figcaption><strong>Short video:</strong> Copy Ball 1. Open Costumes. Turn Fill off. Keep an orange Outline. The video has no sound.</figcaption>
+      <figcaption><strong>Short video:</strong> Make Ball 1. Copy it. Turn the copy into goal 1. The video has no sound. Pause after each action.</figcaption>
     </figure>
     <Callout title="Stop and check"><p>You should have 2 sprites. Ball 1 is full. Goal 1 is an empty orange ring.</p></Callout>
   </>;
@@ -248,6 +262,13 @@ when green flag clicked
 go to x: (-190) y: (143)
     `} />
     </div>
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of positioning Goal 1 and Ball 1 in the first lane">
+        <source src="/video/position-lane-1.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/position-lane-1.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>1-minute video:</strong> Put goal 1 at the bottom and Ball 1 at the top. The video has no sound. Check each number.</figcaption>
+    </figure>
     <div className="mini-stage" aria-label="Ball 1 above goal 1 in the bottom-left lane"><span className="mini-ball" /><span className="mini-goal" /><span className="coordinate top">Ball: x -190, y 143</span><span className="coordinate">Goal: x -190, y -130</span></div>
     <Callout title="Stop and check"><p>Ball 1 should be above goal 1. Both use x <strong>-190</strong>. Ball 1 uses y <strong>143</strong>. Goal 1 uses y <strong>-130</strong>.</p></Callout>
   </>;
@@ -268,11 +289,11 @@ forever
 end
     `} />
     <figure className="video-demo">
-      <video controls playsInline preload="metadata" aria-label="One-minute demonstration of building the Ball 1 falling script">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of building and testing the complete Ball 1 falling script">
         <source src="/video/make-ball-fall.mp4" type="video/mp4" />
         <track kind="captions" src="/video/make-ball-fall.vtt" srcLang="en" label="English instructions" default />
       </video>
-      <figcaption><strong>One-minute video:</strong> Watch the falling script being built. The video moves 4 times faster and has no sound. Pause after each group of blocks.</figcaption>
+      <figcaption><strong>Complete video:</strong> Build and test the full Ball 1 falling script. The video is at normal speed and has no sound. Pause after each block group.</figcaption>
     </figure>
     <div className="recipe-grid">
       <article><span className="recipe-category operators">Operators</span><h3>How fast it falls</h3><p>Put <strong>180</strong> before divide. Put <strong>tempo</strong> after divide.</p></article>
@@ -296,6 +317,13 @@ forever
   end
 end
     `} />
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making and testing the Ball 1 D-key scoring script">
+        <source src="/video/make-d-score.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-d-score.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>3-minute video:</strong> Make the D-key scoring script. The video has no sound. Check the 2 D-key blocks and the 2 y numbers.</figcaption>
+    </figure>
     <Callout kind="tip" title="Why are there 2 wait blocks?"><p>The first wait checks that D is up. The second wait checks for a new D press. Holding D will not add many points.</p></Callout>
     <Callout title="When does D add a point?"><p>D adds a point when Ball 1 is below <strong>-140</strong> and above <strong>-170</strong>.</p></Callout>
   </>;
@@ -508,6 +536,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.9.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.10.0 · Grade 7 prototype</span></footer>
   </main>;
 }
