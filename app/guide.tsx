@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.12.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.13.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -25,6 +25,21 @@ function Script({ title, code }: { title: string; code: string }) {
 
 function Callout({ kind = "check", title, children }: { kind?: "check" | "tip" | "warning"; title: string; children: ReactNode }) {
   return <aside className={`callout ${kind}`}><strong>{title}</strong><div>{children}</div></aside>;
+}
+
+function SaveCheckpoint({ filename }: { filename: string }) {
+  return <aside className="save-checkpoint" aria-label="Save your Scratch game">
+    <div>
+      <p className="eyebrow">Save checkpoint</p>
+      <h3>Save your Scratch game now</h3>
+    </div>
+    <ol>
+      <li>Click <strong>File → Save to your computer</strong>.</li>
+      <li>Name the file <code>{filename}</code>.</li>
+      <li>Wait for the download to finish. Keep this file.</li>
+    </ol>
+    <p>If something breaks later, you can open this copy and keep working.</p>
+  </aside>;
 }
 
 function Vocabulary({ term, meaning }: { term: string; meaning: string }) {
@@ -220,6 +235,7 @@ end
       <figcaption><strong>4-minute video:</strong> Make the 4 separate scripts on goal 1. The video has no sound. Pause after each script.</figcaption>
     </figure>
     <Callout title="Stop and check"><p>Goal 1 should have 4 scripts: setup, timer, speed, and music. Click the green flag. You should hear drums. Time should go up by 1 each second. Tempo should go up by 1 after 5 seconds.</p></Callout>
+    <SaveCheckpoint filename="Rhythm-Game-Setup-Your-Name.sb3" />
   </>;
 
   if (step === 2) return <>
@@ -339,6 +355,7 @@ end
       <li><span>6</span>Click stop. Click the flag again. Time and score go back to 0.</li>
     </ul>
     <Callout kind="warning" title="Did one check fail?"><p>Go back to steps 2 through 7. Check every number. Check the block order. Copy lane 1 only after all 6 checks work.</p></Callout>
+    <SaveCheckpoint filename="Rhythm-Game-Lane-1-Works-Your-Name.sb3" />
   </>;
 
   if (step === 9) return <>
@@ -401,6 +418,7 @@ end
     </figure>
     <Callout title="Stop and test"><p>Click the flag. Test D, F, J, and K. Each ball should fall into its own ring. Each key should score for only one lane.</p></Callout>
     <Callout kind="warning" title="Keep these the same"><p>Do not change the math blocks, random numbers, y numbers, score numbers, or block order in the 4 balls.</p></Callout>
+    <SaveCheckpoint filename="Rhythm-Game-4-Lanes-Your-Name.sb3" />
   </>;
 
   if (step === 11) return <>
@@ -532,6 +550,11 @@ export default function Guide() {
 
     <section className="principle"><p className="eyebrow">The plan</p><h2>Make 2 sprites. Test them. Then copy them.</h2><p className="principle-summary">Goal 1 is the ring. Ball 1 falls into the ring. Goal 1 also runs the score, timer, speed, and music. You will make these 2 sprites work first. Then you will copy them.</p><aside className="resume-note"><strong>Did you watch the Part 1 video?</strong><span>Use steps 1 to 7 to check your work. Keep the setup, timer, speed, and music on goal 1, like the video. When you copy goal 1, delete those 4 extra scripts from each new goal. Do not copy the sprites until lane 1 passes all checks in step 8.</span></aside></section>
 
+    <section className="save-banner" role="note" aria-label="Always save your Scratch game">
+      <strong>SAVE YOUR SCRATCH GAME</strong>
+      <span>Click <b>File → Save to your computer</b>. Guide check marks do not save your Scratch code.</span>
+    </section>
+
     <section className="guide-shell" aria-label="Step-by-step project guide">
       <aside className="step-sidebar">
         <div className="progress-track" aria-label={`${percent}% complete`}><span style={{ width: `${percent}%` }} /></div>
@@ -551,6 +574,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.12.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.13.0 · Grade 7 prototype</span></footer>
   </main>;
 }

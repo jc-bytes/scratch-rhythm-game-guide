@@ -49,7 +49,15 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.12\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.13\.0:guide-progress/);
+  assert.match(guide, /function SaveCheckpoint/);
+  assert.match(guide, /SAVE YOUR SCRATCH GAME/);
+  assert.match(guide, /Guide check marks do not save your Scratch code/);
+  assert.match(guide, /Rhythm-Game-Setup-Your-Name\.sb3/);
+  assert.match(guide, /Rhythm-Game-Lane-1-Works-Your-Name\.sb3/);
+  assert.match(guide, /Rhythm-Game-4-Lanes-Your-Name\.sb3/);
+  assert.match(css, /\.save-banner \{ position: sticky/);
+  assert.match(css, /\.save-checkpoint/);
   assert.match(guide, /function FinishedProjectInspector/);
   assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
   assert.match(guide, /Position only/);

@@ -54,6 +54,10 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 .resume-note { display: grid; grid-template-columns: 220px 1fr; gap: 20px; max-width: 850px; margin: 32px auto 0; padding: 22px 24px; border: 1px solid #d2c8f4; border-radius: 15px; background: #f4f1ff; color: #49425d; text-align: left; line-height: 1.55; }
 .resume-note strong { color: var(--violet-dark); }
 
+.save-banner { position: sticky; z-index: 30; top: 0; display: flex; justify-content: center; align-items: center; gap: 18px; width: 100%; padding: 16px 24px; border-block: 3px solid #a84600; background: #ffca3a; color: #321d00; box-shadow: 0 8px 24px rgba(93, 52, 0, .2); }
+.save-banner strong { font-size: 1.05rem; letter-spacing: .04em; }
+.save-banner span { font-weight: 750; }
+
 .guide-shell { display: grid; grid-template-columns: 280px minmax(0, 1fr); width: min(1220px, calc(100% - 40px)); margin: 0 auto 90px; border: 1px solid var(--line); border-radius: 28px; background: white; box-shadow: 0 22px 60px rgba(49, 31, 111, .1); overflow: clip; scroll-margin-top: 20px; }
 .step-sidebar { padding: 28px 20px; border-right: 1px solid var(--line); background: #f5f2ff; }
 .progress-track { height: 8px; border-radius: 999px; background: #ddd7f3; overflow: hidden; }
@@ -98,6 +102,14 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 .callout.tip > strong { color: var(--violet-dark); }
 .callout.warning > strong { color: #654a00; }
 .callout p { margin: 0; line-height: 1.55; }
+
+.save-checkpoint { display: grid; grid-template-columns: 190px minmax(0, 1fr); gap: 16px 24px; margin: 34px 0; padding: 24px; border: 3px solid #e6a600; border-radius: 16px; background: #fff4c4; color: #3f3100; box-shadow: 0 10px 24px rgba(91, 65, 0, .1); }
+.save-checkpoint .eyebrow { margin: 0 0 6px; color: #704a00; }
+.save-checkpoint h3 { margin: 0; font-size: 1.3rem; line-height: 1.15; }
+.save-checkpoint ol { margin: 0; padding-left: 1.4rem; line-height: 1.65; }
+.save-checkpoint li { padding-left: 4px; }
+.save-checkpoint code { border-radius: 6px; padding: 3px 6px; background: white; color: #4b3500; font-weight: 800; overflow-wrap: anywhere; }
+.save-checkpoint > p { grid-column: 2; margin: 0; font-weight: 750; line-height: 1.5; }
 
 .video-demo { max-width: 800px; margin: 28px 0; overflow: hidden; border: 1px solid #d7d1e8; border-radius: 16px; background: #242034; }
 .video-demo video { display: block; width: 100%; height: auto; background: #171421; }
@@ -196,10 +208,13 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .falling-ball { width: 35px; height: 35px; }
   .principle { padding: 68px 0 52px; }
   .resume-note { grid-template-columns: 1fr; gap: 7px; }
+  .save-banner { align-items: flex-start; flex-direction: column; gap: 4px; padding: 12px 18px; }
   .guide-shell { width: calc(100% - 20px); border-radius: 20px; }
   .step-workspace { padding: 28px 18px 26px; }
   .step-panel { min-height: 600px; }
   .callout { grid-template-columns: 1fr; gap: 7px; }
+  .save-checkpoint { grid-template-columns: 1fr; gap: 12px; }
+  .save-checkpoint > p { grid-column: 1; }
   .script-card { margin-inline: -7px; padding: 14px; }
   .script-card pre.blocks { min-width: 360px; font-size: .82rem; }
   .recipe-grid, .debug-grid { grid-template-columns: 1fr; }
@@ -231,6 +246,7 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .hero-grid { display: block; padding: 20px 0; }
   .hero h1 { font-size: 30pt; }
   .hero .lede { color: black; }
+  .save-banner { position: static; box-shadow: none; }
   .hero nav, .game-preview, .start-button, .principle, .step-sidebar, .mobile-progress, .step-controls, .storage-note, footer { display: none !important; }
   .guide-shell { display: block; width: 100%; margin: 0; border: 0; box-shadow: none; }
   .step-workspace { padding: 0; }
@@ -238,7 +254,7 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .step-panel:first-of-type { break-before: auto; }
   .step-heading { margin-bottom: 15px; padding-bottom: 10px; }
   .step-heading h2 { font-size: 20pt; }
-  .script-card, .callout, .recipe-grid article, .debug-grid article, .test-list li, .value-table { break-inside: avoid; }
+  .script-card, .callout, .save-checkpoint, .recipe-grid article, .debug-grid article, .test-list li, .value-table { break-inside: avoid; }
   .script-card { background: white; overflow: visible; }
   .script-card svg { max-width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   a { color: black; }
