@@ -42,7 +42,9 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.1\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.2\.0:guide-progress/);
+  assert.match(guide, /make-goal-ring\.mp4/);
+  assert.match(guide, /shared scripts do not get copied four times/);
   assert.match(guide, /window\.confirm/);
   assert.match(guide, /window\.print/);
   assert.match(css, /@media print/);

@@ -2,7 +2,7 @@
   "id": "MOD-SCRATCH-RHYTHM-01",
   "title": "Build a 4-Lane Rhythm Game in Scratch",
   "slug": "scratch-rhythm-game",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "status": "prototype",
   "gradeRange": ["7"],
   "track": "Foundation and Core",
@@ -24,7 +24,7 @@
   "sections": ["START-01", "CONTROLLER-01", "LANE-01", "DUPLICATE-01", "TEST-SUBMIT-01"],
   "sourcePath": "standalone-sites/osu-like-scratch-game-guide",
   "publishedUrl": "https://scratch-rhythm-game-guide.pjriosc591103.chatgpt.site",
-  "lastReviewed": "2026-08-20",
+  "lastReviewed": "2026-08-21",
   "owner": "Porfirio Rios",
   "requirements": {
     "device": "Computer or Chromebook with a keyboard",

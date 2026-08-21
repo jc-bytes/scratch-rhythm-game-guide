@@ -2,14 +2,14 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.1.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.2.0:guide-progress";
 
 const stepNames = [
   "Prepare Scratch",
   "Create shared variables",
   "Build the Stage controller",
-  "Make the first goal",
-  "Make Ball 1",
+  "Make Ball 1 and goal 1",
+  "Place the first two sprites",
   "Make Ball 1 fall",
   "Add D-key scoring",
   "Test lane 1",
@@ -102,36 +102,44 @@ function StepContent({ step }: { step: number }) {
   </>;
 
   if (step === 4) return <>
-    <p className="step-intro">The goal is the ring at the bottom of lane 1.</p>
+    <p className="step-intro">Make the first two sprites from one matching shape. Ball 1 stays filled. Its duplicate becomes the goal ring.</p>
     <ol className="action-list">
-      <li>Click <strong>Paint a Sprite</strong>.</li>
-      <li>Choose the circle tool. Turn off fill and choose an orange outline.</li>
-      <li>Hold <kbd>Shift</kbd> while drawing a circle.</li>
-      <li>Rename the sprite {valueChip("goal 1")}.</li>
-      <li>Set its size to {valueChip("150")}.</li>
-      <li>Add the script below. It places the ring at the bottom-left when the game starts.</li>
+      <li>Click <strong>Choose a Sprite</strong> and add the Scratch <strong>Ball</strong>.</li>
+      <li>Rename it {valueChip("Ball 1")} and set its size to {valueChip("150")}.</li>
+      <li>Right-click Ball 1 and choose <strong>duplicate</strong>.</li>
+      <li>Rename the duplicate {valueChip("goal 1")}.</li>
+      <li>With goal 1 selected, open <strong>Costumes</strong>. Select the circle, turn its <strong>Fill</strong> off, and choose an orange <strong>Outline</strong>.</li>
+      <li>Leave the goal&apos;s size at {valueChip("150")}.</li>
     </ol>
-    <Script title="goal 1 position">
-      <Block tone="events">when green flag clicked</Block>
-      <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>-130</Arg></Block>
-    </Script>
-    <div className="mini-stage" aria-label="Goal 1 near the bottom left of the Scratch Stage"><span className="mini-goal" /><span className="coordinate">x -190<br/>y -130</span></div>
-    <Callout title="Checkpoint"><p>Click the flag. The orange ring should sit near the bottom-left edge of the Stage.</p></Callout>
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of changing a duplicated Ball sprite into an orange goal ring">
+        <source src="/video/make-goal-ring.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-goal-ring.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>21-second video check:</strong> duplicate Ball 1, select the costume, remove the fill, and keep an orange outline. This excerpt has no audio, so follow the numbered steps above while watching.</figcaption>
+    </figure>
+    <Callout title="Checkpoint"><p>Your sprite list should contain exactly two sprites: one filled <strong>Ball 1</strong> and one outline <strong>goal 1</strong>.</p></Callout>
   </>;
 
   if (step === 5) return <>
-    <p className="step-intro">Now make the falling note for the first lane.</p>
+    <p className="step-intro">Put both sprites in lane 1. They share the same x value so the ball falls through the middle of the ring.</p>
     <ol className="action-list">
-      <li>Choose the <strong>Ball</strong> sprite from the Scratch library, or paint a filled orange circle.</li>
-      <li>Rename it {valueChip("Ball 1")}.</li>
-      <li>Set its size to {valueChip("150")}.</li>
-      <li>Add this separate starting-position script.</li>
+      <li>Select {valueChip("goal 1")} and add its position script.</li>
+      <li>Select {valueChip("Ball 1")} and add a separate position script.</li>
+      <li>Click the green flag and compare the Stage with the checkpoint below.</li>
     </ol>
+    <div className="script-grid">
+    <Script title="goal 1 starts at the bottom">
+      <Block tone="events">when green flag clicked</Block>
+      <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>-130</Arg></Block>
+    </Script>
     <Script title="Ball 1 starts above goal 1">
       <Block tone="events">when green flag clicked</Block>
       <Block tone="motion">go to x: <Arg>-190</Arg> y: <Arg>143</Arg></Block>
     </Script>
-    <Callout kind="tip" title="Match the lane"><p>Ball 1 and goal 1 use the same x value, <strong>-190</strong>. Only their y values are different.</p></Callout>
+    </div>
+    <div className="mini-stage" aria-label="Ball 1 above goal 1 in the bottom-left lane"><span className="mini-ball" /><span className="mini-goal" /><span className="coordinate top">Ball: x -190, y 143</span><span className="coordinate">Goal: x -190, y -130</span></div>
+    <Callout kind="tip" title="Match the lane"><p>Both sprites use x <strong>-190</strong>. Ball 1 uses y <strong>143</strong>; goal 1 uses y <strong>-130</strong>.</p></Callout>
   </>;
 
   if (step === 6) return <>
@@ -299,7 +307,7 @@ export default function Guide() {
       </div>
     </header>
 
-    <section className="principle"><p className="eyebrow">The plan</p><h2>Build two sprites. Test them. Then copy.</h2><p>Goal 1 teaches the target position. Ball 1 teaches falling, timing, keyboard input, and score. The other six sprites reuse that tested pattern.</p></section>
+    <section className="principle"><p className="eyebrow">The plan</p><h2>Build two sprites. Test them. Then copy.</h2><p className="principle-summary">Goal 1 teaches the target position. Ball 1 teaches falling, timing, keyboard input, and score. The other six sprites reuse that tested pattern.</p><aside className="resume-note"><strong>Already followed the Part 1 video?</strong><span>Use steps 1 through 7 as a repair checklist. The guide moves the timer, score reset, tempo, and music to the Stage so those shared scripts do not get copied four times. Copy sprites only after lane 1 passes step 8.</span></aside></section>
 
     <section className="guide-shell" aria-label="Step-by-step project guide">
       <aside className="step-sidebar">
@@ -320,6 +328,6 @@ export default function Guide() {
         <p className="storage-note">Progress saves only in this browser on this device. Your Scratch project must still be saved as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.1.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.2.0 · Grade 7 prototype</span></footer>
   </main>;
 }
