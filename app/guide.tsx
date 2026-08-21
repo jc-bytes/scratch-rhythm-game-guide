@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.10.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.11.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -437,6 +437,17 @@ end
       <li>Turn in the <strong>.sb3 file</strong> where your teacher told you.</li>
     </ol>
     <div className="finish-card"><p className="eyebrow">Finished game</p><h3>Check your game</h3><ul><li>4 lanes in a row</li><li>D, F, J, and K keys</li><li>Score and time</li><li>Drum music</li><li>Balls wait and come back</li><li>The game gets faster slowly</li><li>A saved .sb3 file that opens</li></ul></div>
+    <details className="extension">
+      <summary>Need to see copying and changing again?</summary>
+      <Callout kind="warning" title="Watch the actions. Do not copy the numbers."><p>This example uses different x and y numbers. Keep the numbers and keys from steps 9 and 10.</p></Callout>
+      <figure className="video-demo">
+        <video controls playsInline preload="metadata" aria-label="Silent optional example of duplicating, renaming, cleaning, and modifying copied Scratch sprites">
+          <source src="/video/copy-and-modify-example.mp4" type="video/mp4" />
+          <track kind="captions" src="/video/copy-and-modify-example.vtt" srcLang="en" label="English instructions" default />
+        </video>
+        <figcaption><strong>Optional 6-minute example:</strong> Watch how sprites are copied, renamed, cleaned, and changed. Use the numbers from this guide, not the video.</figcaption>
+      </figure>
+    </details>
     <details className="extension"><summary>Done early? Pick 1 extra idea</summary><ul><li>Give each lane a different color.</li><li>Add a start screen.</li><li>Play a sound for a good hit.</li><li>Stop the game after 60 seconds.</li></ul></details>
   </>;
 }
@@ -536,6 +547,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.10.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.11.0 · Grade 7 prototype</span></footer>
   </main>;
 }

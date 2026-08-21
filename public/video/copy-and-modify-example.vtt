@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00.000 --> 01:20.000
+Watch how the goal and ball sprites are duplicated and renamed. Do not copy the position numbers from this video.
+
+01:20.000 --> 03:00.000
+Watch how each copied ball is changed. Use the x numbers and keys in Steps 9 and 10.
+
+03:00.000 --> 04:30.000
+Watch how copied goal scripts are cleaned. Goal 1 keeps the controller scripts. The other goals keep only position.
+
+04:30.000 --> 05:54.833
+Watch how the last lanes are checked. Keep using the numbers and keys from the guide, not the video.
