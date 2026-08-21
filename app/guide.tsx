@@ -2,13 +2,13 @@
 
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.5.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.6.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
+  "Make Ball 1 and goal 1",
   "Make score and time",
   "Make the timer and music",
-  "Make Ball 1 and goal 1",
   "Put them in lane 1",
   "Make Ball 1 fall",
   "Make D change the score",
@@ -44,27 +44,27 @@ function StepContent({ step }: { step: number }) {
     <Callout title="Stop and check"><p>You should see a white Stage, no cat, and a green Music button.</p></Callout>
   </>;
 
-  if (step === 2) return <>
+  if (step === 3) return <>
     <p className="step-intro">Make two number boxes. One shows time. One shows score.</p>
     <ol className="action-list">
       <li>Click <strong>Variables</strong>, then <strong>Make a Variable</strong>.</li>
       <li>Make a variable named {valueChip("time")}. Choose <strong>For all sprites</strong>.</li>
       <li>Make a variable named {valueChip("score")}. Choose <strong>For all sprites</strong>.</li>
       <li>Keep both boxes checked. You should see time and score on the Stage.</li>
-      <li>Click the <strong>Stage</strong> picture.</li>
+      <li>Click the {valueChip("goal 1")} sprite.</li>
       <li>Copy the four blocks below. Connect them in this order.</li>
     </ol>
-    <Script title="Stage setup" code={`
+    <Script title="Goal 1 setup" code={`
 when green flag clicked
 set [time v] to (0)
 set [score v] to (0)
 set tempo to (60) :: music
     `} />
-    <Callout kind="warning" title="Put this on the Stage"><p>Do not put these blocks on a ball or goal. Later, you will copy the balls and goals.</p></Callout>
+    <Callout kind="warning" title="Keep this on goal 1"><p>Do not put another copy on a ball. Goal 1 will control the score, time, tempo, and music.</p></Callout>
   </>;
 
-  if (step === 3) return <>
-    <p className="step-intro">Stay on the Stage. Make three scripts. Do not connect the three scripts to each other.</p>
+  if (step === 4) return <>
+    <p className="step-intro">Stay on goal 1. Make three more scripts. Do not connect these scripts to each other.</p>
     <div className="script-grid">
       <Script title="Timer" code={`
 when green flag clicked
@@ -94,10 +94,10 @@ forever
   play drum (6 v) for (0.5) beats :: music
 end
     `} />
-    <Callout title="Stop and check"><p>Click the green flag. You should hear drums. Time should go up by 1 each second. Tempo should go up by 1 after 5 seconds.</p></Callout>
+    <Callout title="Stop and check"><p>Goal 1 should have 4 scripts: setup, timer, speed, and music. Click the green flag. You should hear drums. Time should go up by 1 each second. Tempo should go up by 1 after 5 seconds.</p></Callout>
   </>;
 
-  if (step === 4) return <>
+  if (step === 2) return <>
     <p className="step-intro">Make one ball. Then copy it. The copy will become an empty ring.</p>
     <ol className="action-list">
       <li>Click <strong>Choose a Sprite</strong>.</li>
@@ -192,7 +192,7 @@ end
       <li><span>5</span>Wait. Ball 1 should hide and come back.</li>
       <li><span>6</span>Click stop. Click the flag again. Time and score go back to 0.</li>
     </ul>
-    <Callout kind="warning" title="Did one check fail?"><p>Go back to steps 4, 5, 6, and 7. Check every number. Check the block order. Copy lane 1 only after all 6 checks work.</p></Callout>
+    <Callout kind="warning" title="Did one check fail?"><p>Go back to steps 2 through 7. Check every number. Check the block order. Copy lane 1 only after all 6 checks work.</p></Callout>
   </>;
 
   if (step === 9) return <>
@@ -201,6 +201,8 @@ end
     <ol className="action-list">
       <li>Right-click {valueChip("goal 1")}. Click <strong>duplicate</strong>.</li>
       <li>Name the copy {valueChip("goal 2")}.</li>
+      <li>Click goal 2. Keep its blue <strong>go to</strong> position script.</li>
+      <li>Delete the 4 extra scripts from goal 2: setup, timer, speed, and music.</li>
       <li>Find goal 2&apos;s blue <strong>go to</strong> block.</li>
       <li>Change x to {valueChip("-112")}. Keep y at {valueChip("-130")}.</li>
       <li>Right-click {valueChip("Ball 1")}. Click <strong>duplicate</strong>.</li>
@@ -209,7 +211,8 @@ end
       <li>Ball 2 has 2 key blocks. Change both from <kbd>D</kbd> to <kbd>F</kbd>.</li>
       <li>Click the flag. Press F when Ball 2 is inside goal 2.</li>
     </ol>
-    <div className="copy-checklist"><strong>Lane 2 needs 8 changes</strong><span>2 sprite names</span><span>1 goal x number</span><span>3 ball x numbers</span><span>2 ball keys</span></div>
+    <div className="copy-checklist"><strong>First, clean goal 2</strong><span>Keep 1 position script</span><span>Delete 4 copied scripts</span></div>
+    <div className="change-count"><strong>Then make 8 changes</strong><span>2 sprite names</span><span>1 goal x number</span><span>3 ball x numbers</span><span>2 ball keys</span></div>
     <Callout kind="warning" title="Change the blue blocks"><p>Change the x numbers inside the blue blocks. Do not move the sprites by typing in the x and y boxes below the Stage.</p></Callout>
     <Callout title="Stop and check"><p>You should see 2 rings. Ball 2 should fall into ring 2. F should score for lane 2. D should still score for lane 1.</p></Callout>
   </>;
@@ -218,12 +221,14 @@ end
     <p className="step-intro">Make lane 3. Test it. Then make lane 4. Always copy goal 1 and Ball 1.</p>
     <ol className="action-list">
       <li>Copy {valueChip("goal 1")}. Name the copy {valueChip("goal 3")}.</li>
+      <li>On goal 3, keep the position script. Delete setup, timer, speed, and music.</li>
       <li>Copy {valueChip("Ball 1")}. Name the copy {valueChip("Ball 3")}.</li>
       <li>Use x {valueChip("-28")} in goal 3 one time.</li>
       <li>Use x {valueChip("-28")} in Ball 3 three times.</li>
       <li>Change both Ball 3 key blocks to <kbd>J</kbd>.</li>
       <li>Click the flag. Test J. Do not continue until lane 3 works.</li>
       <li>Copy {valueChip("goal 1")}. Name the copy {valueChip("goal 4")}.</li>
+      <li>On goal 4, keep the position script. Delete setup, timer, speed, and music.</li>
       <li>Copy {valueChip("Ball 1")}. Name the copy {valueChip("Ball 4")}.</li>
       <li>Use x {valueChip("53")} in goal 4 one time.</li>
       <li>Use x {valueChip("53")} in Ball 4 three times.</li>
@@ -243,8 +248,8 @@ end
       </video>
       <figcaption><strong>Short video:</strong> Open the 2 key menus in each copied ball. Change both keys. The video has no sound. Use the table for the correct key.</figcaption>
     </figure>
-    <div className="change-count"><strong>Each new lane needs 8 changes</strong><span>2 names</span><span>1 goal x number</span><span>3 ball x numbers</span><span>2 keys</span></div>
-    <Callout kind="warning" title="Clean up old video projects"><p>Click each goal. A goal should have only its green-flag position script. Delete timer, tempo, and drum scripts from all goals. Click each ball. Delete <strong>set score to 0</strong> from every ball. Keep only one score reset, one timer, one speed script, and one drum script. Keep them on the Stage.</p></Callout>
+    <div className="change-count"><strong>Each new lane needs cleanup and 8 changes</strong><span>Delete 4 goal scripts</span><span>2 names</span><span>1 goal x number</span><span>3 ball x numbers</span><span>2 keys</span></div>
+    <Callout kind="warning" title="Check every goal"><p>Goal 1 keeps its position, setup, timer, speed, and music scripts. Goals 2, 3, and 4 keep only their position scripts. Click each ball. Delete <strong>set score to 0</strong> if you see it. In the whole project, keep only one setup, one timer, one speed script, and one music script. Keep all four on goal 1.</p></Callout>
     <Callout kind="warning" title="Keep these the same"><p>Do not change the math blocks, random numbers, y numbers, score numbers, or block order in the 4 balls.</p></Callout>
   </>;
 
@@ -265,8 +270,8 @@ end
     <div className="debug-grid">
       <article><h3>The ball misses the ring</h3><p>Go to the table in step 10. Check all 3 x numbers for that ball.</p></article>
       <article><h3>The wrong key scores</h3><p>Find that ball&apos;s 2 key blocks. Change both blocks to the correct key.</p></article>
-      <article><h3>Time goes too fast</h3><p>Delete timer scripts from all sprites. Keep 1 timer on the Stage.</p></article>
-      <article><h3>Music is too fast</h3><p>Keep 1 drum script and 1 speed script on the Stage. Delete their copies from every sprite.</p></article>
+      <article><h3>Time goes too fast</h3><p>Keep 1 timer on goal 1. Delete timer copies from goals 2, 3, and 4 and from all balls.</p></article>
+      <article><h3>Music is too fast</h3><p>Keep 1 music script and 1 speed script on goal 1. Delete their copies from goals 2, 3, and 4 and from all balls.</p></article>
       <article><h3>One press changes score many times</h3><p>Put <strong>wait until not key pressed</strong> before <strong>wait until key pressed</strong>.</p></article>
       <article><h3>The ball does not come back</h3><p>Inside the if block, use this order: hide, wait, show, go to.</p></article>
     </div>
@@ -363,7 +368,7 @@ export default function Guide() {
       </div>
     </header>
 
-    <section className="principle"><p className="eyebrow">The plan</p><h2>Make 2 sprites. Test them. Then copy them.</h2><p className="principle-summary">Goal 1 is the ring. Ball 1 falls into the ring. You will make these 2 sprites work first. Then you will copy them.</p><aside className="resume-note"><strong>Did you watch the Part 1 video?</strong><span>Use steps 1 to 7 to check your work. Keep the timer, score reset, tempo, and music on the Stage. Do not copy the sprites until lane 1 passes all checks in step 8.</span></aside></section>
+    <section className="principle"><p className="eyebrow">The plan</p><h2>Make 2 sprites. Test them. Then copy them.</h2><p className="principle-summary">Goal 1 is the ring. Ball 1 falls into the ring. Goal 1 also runs the score, timer, speed, and music. You will make these 2 sprites work first. Then you will copy them.</p><aside className="resume-note"><strong>Did you watch the Part 1 video?</strong><span>Use steps 1 to 7 to check your work. Keep the setup, timer, speed, and music on goal 1, like the video. When you copy goal 1, delete those 4 extra scripts from each new goal. Do not copy the sprites until lane 1 passes all checks in step 8.</span></aside></section>
 
     <section className="guide-shell" aria-label="Step-by-step project guide">
       <aside className="step-sidebar">
@@ -384,6 +389,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.5.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.6.0 · Grade 7 prototype</span></footer>
   </main>;
 }

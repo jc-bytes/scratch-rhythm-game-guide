@@ -18,6 +18,7 @@ test("server-renders the complete Scratch rhythm-game guide", async () => {
   const html = await response.text();
   assert.match(html, /<title>Make a 4-Lane Scratch Rhythm Game<\/title>/i);
   assert.match(html, /Make 2 sprites\. Test them\. Then copy them\./);
+  assert.ok(html.indexOf("Make Ball 1 and goal 1") < html.indexOf("Make score and time"));
   assert.match(html, /id="step-12"/);
   assert.match(html, /Save and turn in your game/);
   assert.match(html, /Ball 4/);
@@ -42,7 +43,7 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.5\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.6\.0:guide-progress/);
   assert.match(guide, /pre className="blocks"/);
   assert.match(guide, /scratchblocks\.min\.js/);
   assert.match(guide, /make-goal-ring\.mp4/);
@@ -50,7 +51,10 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /Are you starting Part 3\?/);
   assert.match(guide, /Are you starting Part 4\?/);
   assert.match(guide, /After 20 seconds, tempo should be near 64/);
-  assert.match(guide, /Clean up old video projects/);
+  assert.match(guide, /Stay on goal 1\. Make three more scripts/);
+  assert.match(guide, /Delete the 4 extra scripts from goal 2/);
+  assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
+  assert.doesNotMatch(guide, /Keep the timer, score reset, tempo, and music on the Stage/);
   assert.match(guide, /sprite<\/strong> is a picture you code/);
   assert.doesNotMatch(guide, /controlled playtest|copying phase|temporary x and y fields|Repair projects made/);
   assert.match(guide, /window\.confirm/);
