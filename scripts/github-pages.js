@@ -50,6 +50,37 @@
     });
   }
 
+  function setupLaneOneTest() {
+    const checks = [...document.querySelectorAll("[data-lane-check]")];
+    const summary = document.querySelector("[data-lane-summary]");
+    const updateSummary = () => {
+      const yesCount = checks.filter((check) => check.dataset.answer === "yes").length;
+      const ready = yesCount === checks.length;
+      if (!summary) return;
+      summary.classList.toggle("ready", ready);
+      summary.classList.toggle("not-ready", !ready);
+      summary.textContent = ready
+        ? "All 6 answers are Yes. Lane 1 is ready to copy."
+        : `${yesCount} of 6 checks say Yes. Fix every No before you copy.`;
+    };
+    checks.forEach((check) => {
+      const buttons = [...check.querySelectorAll("[data-lane-answer]")];
+      buttons.forEach((button) => button.addEventListener("click", () => {
+        const answer = button.dataset.laneAnswer;
+        check.dataset.answer = answer;
+        check.classList.toggle("yes", answer === "yes");
+        check.classList.toggle("no", answer === "no");
+        check.classList.remove("unanswered");
+        buttons.forEach((item) => item.setAttribute("aria-pressed", String(item.dataset.laneAnswer === answer)));
+        check.querySelectorAll("[data-lane-message]").forEach((message) => {
+          message.hidden = message.dataset.laneMessage !== answer;
+        });
+        updateSummary();
+      }));
+    });
+    updateSummary();
+  }
+
   try {
     const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
     if (saved && Array.isArray(saved.completed)) {
@@ -136,5 +167,6 @@
 
   render();
   setupSpriteInspectors();
+  setupLaneOneTest();
   loadScratchBlocks();
 })();

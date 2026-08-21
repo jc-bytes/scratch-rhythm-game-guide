@@ -42,6 +42,34 @@ function SaveCheckpoint({ filename }: { filename: string }) {
   </aside>;
 }
 
+const laneOneChecks = [
+  { test: <>Ball 1 starts at the top.</>, help: <>Check Ball 1&apos;s blue start block: x <strong>-190</strong>, y <strong>143</strong>.</> },
+  { test: <>A good <kbd>D</kbd> press adds 1 point.</>, help: <>Check both D-key blocks. Check y &lt; -140, y &gt; -170, and change score by 1.</> },
+  { test: <>An early <kbd>D</kbd> press takes away 1 point.</>, help: <>Inside else, use change score by <strong>-1</strong>.</> },
+  { test: <>Holding <kbd>D</kbd> counts only 1 press.</>, help: <>Put wait until not D before wait until D.</> },
+  { test: <>Ball 1 hides, waits, and comes back.</>, help: <>Inside if, use this order: hide, wait, show, go to x -190 y 143.</> },
+  { test: <>Starting again puts time and score at 0.</>, help: <>On goal 1, check set time to 0 and set score to 0. Keep only one setup script.</> },
+];
+
+function LaneOneTest() {
+  const [answers, setAnswers] = useState<Record<number, "yes" | "no">>({});
+  const yesCount = Object.values(answers).filter((answer) => answer === "yes").length;
+  return <div className="yes-no-checks">
+    {laneOneChecks.map((check, index) => <article className={`yes-no-check ${answers[index] ?? "unanswered"}`} data-lane-check key={index}>
+      <div className="yes-no-question"><span>{index + 1}</span><strong>{check.test}</strong></div>
+      <div className="yes-no-buttons" aria-label={`Answer check ${index + 1}`}>
+        <button type="button" data-lane-answer="yes" aria-pressed={answers[index] === "yes"} onClick={() => setAnswers((old) => ({ ...old, [index]: "yes" }))}>Yes</button>
+        <button type="button" data-lane-answer="no" aria-pressed={answers[index] === "no"} onClick={() => setAnswers((old) => ({ ...old, [index]: "no" }))}>No</button>
+      </div>
+      <p className="yes-no-answer good" data-lane-message="yes" hidden={answers[index] !== "yes"}>Good. Keep going.</p>
+      <p className="yes-no-answer check" data-lane-message="no" hidden={answers[index] !== "no"}><strong>Check this:</strong> {check.help}</p>
+    </article>)}
+    <p className={`yes-no-summary ${yesCount === laneOneChecks.length ? "ready" : "not-ready"}`} data-lane-summary>
+      {yesCount === laneOneChecks.length ? "All 6 answers are Yes. Lane 1 is ready to copy." : `${yesCount} of 6 checks say Yes. Fix every No before you copy.`}
+    </p>
+  </div>;
+}
+
 function Vocabulary({ term, meaning }: { term: string; meaning: string }) {
   const tooltipId = useId();
   return <span className="vocabulary">
@@ -228,11 +256,11 @@ forever
 end
     `} />
     <figure className="video-demo">
-      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making the Goal 1 setup, timer, speed, and music scripts">
-        <source src="/video/make-goal-controller.mp4" type="video/mp4" />
-        <track kind="captions" src="/video/make-goal-controller.vtt" srcLang="en" label="English instructions" default />
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of making the Goal 1 timer, speed, and music scripts">
+        <source src="/video/make-timer-and-music.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-timer-and-music.vtt" srcLang="en" label="English instructions" default />
       </video>
-      <figcaption><strong>4-minute video:</strong> Make the 4 separate scripts on goal 1. The video has no sound. Pause after each script.</figcaption>
+      <figcaption><strong>2½-minute video:</strong> Make the timer, speed, and music scripts on goal 1. It stops before lane positioning. The video has no sound. Pause after each script.</figcaption>
     </figure>
     <Callout title="Stop and check"><p>Goal 1 should have 4 scripts: setup, timer, speed, and music. Click the green flag. You should hear drums. Time should go up by 1 each second. Tempo should go up by 1 after 5 seconds.</p></Callout>
     <SaveCheckpoint filename="Rhythm-Game-Setup-Your-Name.sb3" />
@@ -306,10 +334,10 @@ end
     `} />
     <figure className="video-demo">
       <video controls playsInline preload="metadata" aria-label="Silent demonstration of building and testing the complete Ball 1 falling script">
-        <source src="/video/make-ball-fall.mp4" type="video/mp4" />
-        <track kind="captions" src="/video/make-ball-fall.vtt" srcLang="en" label="English instructions" default />
+        <source src="/video/make-ball-fall-only.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-ball-fall-only.vtt" srcLang="en" label="English instructions" default />
       </video>
-      <figcaption><strong>Complete video:</strong> Build and test the full Ball 1 falling script. The video is at normal speed and has no sound. Pause after each block group.</figcaption>
+      <figcaption><strong>Complete falling video:</strong> Build and test only the Ball 1 falling script. It stops before D-key scoring. The video is at normal speed and has no sound.</figcaption>
     </figure>
     <div className="recipe-grid">
       <article><span className="recipe-category operators">Operators</span><h3>How fast it falls</h3><p>Put <strong>180</strong> before divide. Put <strong>tempo</strong> after divide.</p></article>
@@ -345,22 +373,21 @@ end
   </>;
 
   if (step === 8) return <>
-    <p className="step-intro">Test <Vocabulary term="lane 1" meaning="Goal 1, Ball 1, and the D key working together." /> now. Do not copy lane 1 until all 6 checks work.</p>
-    <ul className="test-list">
-      <li><span>1</span>Click the green flag. Ball 1 starts at the top.</li>
-      <li><span>2</span>Press <kbd>D</kbd> when Ball 1 is inside the ring. Score goes up by 1.</li>
-      <li><span>3</span>Press <kbd>D</kbd> too soon. Score goes down by 1.</li>
-      <li><span>4</span>Hold <kbd>D</kbd>. It should count only 1 press.</li>
-      <li><span>5</span>Wait. Ball 1 should hide and come back.</li>
-      <li><span>6</span>Click stop. Click the flag again. Time and score go back to 0.</li>
-    </ul>
-    <Callout kind="warning" title="Did one check fail?"><p>Go back to steps 2 through 7. Check every number. Check the block order. Copy lane 1 only after all 6 checks work.</p></Callout>
+    <p className="step-intro">Test <Vocabulary term="lane 1" meaning="Goal 1, Ball 1, and the D key working together." />. Click Yes or No after each test. A No answer shows what to check here.</p>
+    <LaneOneTest />
     <SaveCheckpoint filename="Rhythm-Game-Lane-1-Works-Your-Name.sb3" />
   </>;
 
   if (step === 9) return <>
     <p className="step-intro">Make and name all 6 copies. Do not change any blocks yet.</p>
     <Callout kind="tip" title="Are you starting Part 3?"><p>Do the 6 checks in step 8 first. Come back here when all 6 checks work.</p></Callout>
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="Silent demonstration of duplicating and naming the six copied sprites">
+        <source src="/video/make-all-copies.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-all-copies.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>1½-minute copying video:</strong> Copy and name the sprites. Stop when you have 4 goals and 4 balls. Do not change blocks yet.</figcaption>
+    </figure>
     <h3>Copy the goals</h3>
     <ol className="action-list">
       <li>Right-click {valueChip("goal 1")}. Click <strong>duplicate</strong>.</li>

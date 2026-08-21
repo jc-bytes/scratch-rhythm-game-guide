@@ -132,6 +132,21 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 .test-list { display: grid; gap: 11px; margin: 24px 0; padding: 0; list-style: none; }
 .test-list li { display: grid; grid-template-columns: 36px 1fr; align-items: center; gap: 13px; padding: 13px 15px; border: 1px solid var(--line); border-radius: 12px; line-height: 1.45; }
 .test-list li > span { display: grid; width: 31px; height: 31px; place-items: center; border-radius: 50%; background: #eeeaff; color: var(--violet-dark); font-weight: 900; }
+.yes-no-checks { display: grid; gap: 13px; margin: 24px 0 30px; }
+.yes-no-check { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 12px 18px; padding: 17px; border: 2px solid var(--line); border-radius: 14px; background: white; }
+.yes-no-check.yes { border-color: #75c9a8; background: #effbf6; }
+.yes-no-check.no { border-color: #edbd4e; background: #fff9e8; }
+.yes-no-question { display: grid; grid-template-columns: 32px minmax(0, 1fr); align-items: center; gap: 12px; line-height: 1.45; }
+.yes-no-question > span { display: grid; width: 31px; height: 31px; place-items: center; border-radius: 50%; background: #eeeaff; color: var(--violet-dark); font-weight: 900; }
+.yes-no-buttons { display: flex; gap: 8px; }
+.yes-no-buttons button { min-width: 64px; border: 2px solid #c9c1df; border-radius: 10px; padding: 9px 12px; background: white; color: #403a4e; font-weight: 850; cursor: pointer; }
+.yes-no-buttons button[aria-pressed="true"] { border-color: var(--violet); background: var(--violet); color: white; }
+.yes-no-answer { grid-column: 1 / -1; margin: 0 0 0 44px; padding: 11px 13px; border-radius: 9px; line-height: 1.5; }
+.yes-no-answer.good { background: #d9f7ea; color: #155a43; }
+.yes-no-answer.check { background: #fff1bd; color: #5c4300; }
+.yes-no-summary { margin: 6px 0 0; padding: 16px 18px; border-radius: 12px; font-weight: 850; line-height: 1.45; }
+.yes-no-summary.not-ready { background: #eeeaff; color: var(--violet-dark); }
+.yes-no-summary.ready { background: #d9f7ea; color: #155a43; }
 .value-table { width: 100%; margin: 26px 0; border-collapse: separate; border-spacing: 0; border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
 .value-table caption { padding: 12px; color: #514b60; font-weight: 850; text-align: left; }
 .value-table th, .value-table td { padding: 13px 16px; border-top: 1px solid var(--line); text-align: left; }
@@ -213,6 +228,9 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .step-workspace { padding: 28px 18px 26px; }
   .step-panel { min-height: 600px; }
   .callout { grid-template-columns: 1fr; gap: 7px; }
+  .yes-no-check { grid-template-columns: 1fr; }
+  .yes-no-buttons { margin-left: 44px; }
+  .yes-no-answer { margin-left: 0; }
   .save-checkpoint { grid-template-columns: 1fr; gap: 12px; }
   .save-checkpoint > p { grid-column: 1; }
   .script-card { margin-inline: -7px; padding: 14px; }
@@ -254,7 +272,7 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .step-panel:first-of-type { break-before: auto; }
   .step-heading { margin-bottom: 15px; padding-bottom: 10px; }
   .step-heading h2 { font-size: 20pt; }
-  .script-card, .callout, .save-checkpoint, .recipe-grid article, .debug-grid article, .test-list li, .value-table { break-inside: avoid; }
+  .script-card, .callout, .save-checkpoint, .recipe-grid article, .debug-grid article, .test-list li, .yes-no-check, .value-table { break-inside: avoid; }
   .script-card { background: white; overflow: visible; }
   .script-card svg { max-width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   a { color: black; }

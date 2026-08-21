@@ -1,0 +1,13 @@
+WEBVTT
+
+00:00.000 --> 00:42.000
+On goal 1, make a separate timer script. Change time by 1. Then wait 1 second.
+
+00:42.000 --> 01:18.000
+Make a separate speed script. Wait 5 seconds. Then change tempo by 1.
+
+01:18.000 --> 02:20.000
+Make the music script. Put all 8 drum blocks inside forever.
+
+02:20.000 --> 02:38.000
+Check goal 1. Keep setup, timer, speed, and music as separate scripts.

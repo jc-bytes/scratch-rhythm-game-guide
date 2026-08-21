@@ -1,0 +1,22 @@
+WEBVTT
+
+00:00.000 --> 00:45.000
+On Ball 1, start with green flag, show, forever, and glide.
+
+00:45.000 --> 01:40.000
+Set glide to 180 divided by tempo. Use x -190 and y -180.
+
+01:40.000 --> 02:30.000
+Add an if block. Check whether y position is less than -179.
+
+02:30.000 --> 04:00.000
+Inside if, add hide, wait, and show. Build the random wait divided by tempo.
+
+04:00.000 --> 05:30.000
+Add go to x -190 and y 143 at the bottom of the if block.
+
+05:30.000 --> 06:30.000
+Check every number and connect the complete falling stack.
+
+06:30.000 --> 06:45.000
+Click the green flag. Ball 1 should fall, hide, wait, and return to the top.
