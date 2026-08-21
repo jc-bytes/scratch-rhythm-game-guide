@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.8.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.9.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -267,6 +267,13 @@ forever
   end
 end
     `} />
+    <figure className="video-demo">
+      <video controls playsInline preload="metadata" aria-label="One-minute demonstration of building the Ball 1 falling script">
+        <source src="/video/make-ball-fall.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-ball-fall.vtt" srcLang="en" label="English instructions" default />
+      </video>
+      <figcaption><strong>One-minute video:</strong> Watch the falling script being built. The video moves 4 times faster and has no sound. Pause after each group of blocks.</figcaption>
+    </figure>
     <div className="recipe-grid">
       <article><span className="recipe-category operators">Operators</span><h3>How fast it falls</h3><p>Put <strong>180</strong> before divide. Put <strong>tempo</strong> after divide.</p></article>
       <article><span className="recipe-category operators">Operators</span><h3>Wait before coming back</h3><p>Put <strong>pick random 6 to 600</strong> before divide. Put <strong>tempo</strong> after divide.</p></article>
@@ -501,6 +508,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.8.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.9.0 · Grade 7 prototype</span></footer>
   </main>;
 }

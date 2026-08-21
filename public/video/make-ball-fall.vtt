@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00.000 --> 00:08.000
+On Ball 1, start the falling script with the green flag, show, and forever blocks.
+
+00:08.000 --> 00:19.000
+Inside forever, add glide. Use x -190 and y -180.
+
+00:19.000 --> 00:31.000
+Add an if block. Check whether y position is less than -179.
+
+00:31.000 --> 00:43.000
+Inside if, add hide, wait, and show in that order.
+
+00:43.000 --> 00:55.000
+Build the wait time with pick random 6 to 600 divided by tempo.
+
+00:55.000 --> 01:04.000
+At the bottom of if, add go to x -190 and y 143.

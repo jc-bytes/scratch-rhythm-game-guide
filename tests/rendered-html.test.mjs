@@ -49,7 +49,7 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.8\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.9\.0:guide-progress/);
   assert.match(guide, /function FinishedProjectInspector/);
   assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
   assert.match(guide, /Position only/);
@@ -64,6 +64,8 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /scratchblocks\.min\.js/);
   assert.match(guide, /make-goal-ring\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
+  assert.match(guide, /make-ball-fall\.mp4/);
+  assert.match(guide, /video moves 4 times faster/);
   assert.match(guide, /Are you starting Part 3\?/);
   assert.match(guide, /Are you starting Part 4\?/);
   assert.match(guide, /After 20 seconds, tempo should be near 64/);
@@ -80,5 +82,7 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await access(new URL("../public/video/change-copied-keys.mp4", import.meta.url));
   await access(new URL("../public/video/change-copied-keys.vtt", import.meta.url));
+  await access(new URL("../public/video/make-ball-fall.mp4", import.meta.url));
+  await access(new URL("../public/video/make-ball-fall.vtt", import.meta.url));
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
