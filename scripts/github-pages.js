@@ -1,7 +1,8 @@
 (() => {
   "use strict";
 
-  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.13.0:guide-progress";
+  const storageKey = "MOD-SCRATCH-RHYTHM-01:v0.14.0:guide-progress";
+  const legacyStorageKey = "MOD-SCRATCH-RHYTHM-01:v0.13.0:guide-progress";
   const panels = [...document.querySelectorAll(".step-panel")];
   const stepButtons = [...document.querySelectorAll(".step-sidebar li button")];
   const select = document.querySelector("#step-select");
@@ -81,12 +82,36 @@
     updateSummary();
   }
 
+  function setupVideoCaptions() {
+    document.querySelectorAll("[data-guided-video]").forEach((video) => {
+      const caption = video.parentElement?.querySelector("[data-video-caption]");
+      const sync = () => {
+        const textTrack = video.textTracks?.[0];
+        if (!textTrack) return;
+        textTrack.mode = "hidden";
+        const cue = textTrack.activeCues?.[0];
+        if (caption && cue?.text) caption.textContent = cue.text;
+      };
+      video.addEventListener("loadedmetadata", sync);
+      video.addEventListener("timeupdate", sync);
+      video.querySelector("track")?.addEventListener("load", sync);
+      sync();
+    });
+  }
+
   try {
-    const saved = JSON.parse(localStorage.getItem(storageKey) || "null");
+    const currentSaved = localStorage.getItem(storageKey);
+    const legacySaved = currentSaved ? null : localStorage.getItem(legacyStorageKey);
+    const saved = JSON.parse(currentSaved || legacySaved || "null");
     if (saved && Array.isArray(saved.completed)) {
-      completed = [...new Set(saved.completed.filter((number) => Number.isInteger(number) && number >= 1 && number <= panels.length))].sort((a, b) => a - b);
+      const oldSteps = saved.completed.filter((number) => Number.isInteger(number) && number >= 1 && number <= (legacySaved ? 12 : panels.length));
+      const migrateStep = (number) => number <= 9 ? [number] : number === 10 ? [10, 11, 12] : number === 11 ? [13] : number === 12 ? [14] : [];
+      completed = [...new Set(legacySaved ? oldSteps.flatMap(migrateStep) : oldSteps)].sort((a, b) => a - b);
     }
-    if (saved && Number.isInteger(saved.current)) current = Math.min(panels.length, Math.max(1, saved.current));
+    if (saved && Number.isInteger(saved.current)) {
+      const nextCurrent = legacySaved ? (saved.current <= 9 ? saved.current : saved.current === 10 ? 10 : saved.current === 11 ? 13 : 14) : saved.current;
+      current = Math.min(panels.length, Math.max(1, nextCurrent));
+    }
   } catch {
     // The guide still works when browser storage is unavailable.
   }
@@ -168,5 +193,6 @@
   render();
   setupSpriteInspectors();
   setupLaneOneTest();
+  setupVideoCaptions();
   loadScratchBlocks();
 })();

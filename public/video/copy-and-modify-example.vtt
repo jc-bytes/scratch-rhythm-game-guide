@@ -6,8 +6,8 @@ Watch how the goal and ball sprites are duplicated and renamed. Do not copy the 
 01:20.000 --> 03:00.000
 Watch how each copied ball is changed. Use the x numbers and keys in Steps 9 and 10.
 
-03:00.000 --> 04:30.000
-Watch how copied goal scripts are cleaned. Goal 1 keeps the controller scripts. The other goals keep only position.
+03:00.000 --> 05:10.000
+Watch how positions and keys are changed. Use the numbers and keys from this guide, not the video.
 
-04:30.000 --> 05:54.833
-Watch how the last lanes are checked. Keep using the numbers and keys from the guide, not the video.
+05:10.000 --> 05:54.833
+Watch goal 2, goal 3, and goal 4 get cleaned. Each one keeps only its blue position script.

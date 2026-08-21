@@ -113,8 +113,14 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 
 .video-demo { max-width: 800px; margin: 28px 0; overflow: hidden; border: 1px solid #d7d1e8; border-radius: 16px; background: #242034; }
 .video-demo video { display: block; width: 100%; height: auto; background: #171421; }
+.video-instruction { min-height: 3.2rem; margin: 0; padding: 12px 18px; display: flex; align-items: center; background: #2f2942; color: white; font-size: 1rem; font-weight: 800; line-height: 1.35; }
 .video-demo figcaption { padding: 15px 18px; background: white; color: #595365; font-size: .92rem; line-height: 1.5; }
 .video-demo figcaption strong { color: var(--violet-dark); }
+.caption-help { margin: 10px 0 0; color: #4f485e; }
+.video-steps { margin-top: 10px; border-top: 1px solid #e2ddec; padding-top: 10px; }
+.video-steps summary { cursor: pointer; color: var(--violet-dark); font-weight: 850; }
+.video-steps ol { margin: 10px 0 0; padding-left: 1.35rem; }
+.video-steps li + li { margin-top: 6px; }
 
 .mini-stage { position: relative; width: min(100%, 540px); aspect-ratio: 4/3; margin: 25px 0; border: 12px solid #e8e4f3; border-radius: 15px; background: white; box-shadow: inset 0 0 0 1px #d1cadf; }
 .mini-goal { position: absolute; left: 7%; bottom: 5%; width: 68px; height: 68px; border: 6px solid #ffac22; border-radius: 50%; }

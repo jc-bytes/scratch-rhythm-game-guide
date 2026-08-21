@@ -20,7 +20,8 @@ test("server-renders the complete Scratch rhythm-game guide", async () => {
   assert.match(html, /<title>Make a 4-Lane Scratch Rhythm Game<\/title>/i);
   assert.match(html, /Make 2 sprites\. Test them\. Then copy them\./);
   assert.ok(html.indexOf("Make Ball 1 and goal 1") < html.indexOf("Make score and time"));
-  assert.match(html, /id="step-12"/);
+  assert.match(html, /id="step-14"/);
+  assert.equal((html.match(/class="step-panel/g) ?? []).length, 14);
   assert.match(html, /Save and turn in your game/);
   assert.match(html, /Ball 4/);
   assert.match(html, />K<\/kbd>/);
@@ -50,7 +51,9 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.14\.0:guide-progress/);
   assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.13\.0:guide-progress/);
+  assert.match(guide, /const STEP_COUNT = stepNames\.length/);
   assert.match(guide, /function SaveCheckpoint/);
   assert.match(guide, /SAVE YOUR SCRATCH GAME/);
   assert.match(guide, /Guide check marks do not save your Scratch code/);
@@ -60,7 +63,7 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(css, /\.save-banner \{ position: sticky/);
   assert.match(css, /\.save-checkpoint/);
   assert.match(guide, /function FinishedProjectInspector/);
-  assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
+  assert.match(guide, /Only goal 1 should run score, time, speed, and music/);
   assert.match(guide, /Position only/);
   assert.match(guide, /3\. K key scoring/);
   assert.match(css, /\.sprite-tray/);
@@ -80,7 +83,7 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /make-ball-fall-only\.mp4/);
   assert.match(guide, /make-d-score-from-first-block\.mp4/);
   assert.match(guide, /from the first green-flag block/);
-  assert.match(guide, /make-all-copies\.mp4/);
+  assert.match(guide, /make-all-copies-and-count\.mp4/);
   assert.match(guide, /function LaneOneTest/);
   assert.match(guide, /data-lane-answer="yes"/);
   assert.match(guide, /Click Yes or No after each test/);
@@ -97,20 +100,30 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /Are you starting Part 4\?/);
   assert.match(guide, /After 20 seconds, tempo should be near 64/);
   assert.match(guide, /Stay on goal 1\. Make three more <Vocabulary term="scripts"/);
-  assert.match(guide, /Delete the 4 extra scripts from goal 2/);
+  assert.match(guide, /Delete the extra controller scripts from goal 2/);
   assert.match(guide, /Make and name all 6 copies\. Do not change any blocks yet\./);
-  assert.match(guide, /Pass 1: Clean and move the goals/);
-  assert.match(guide, /Pass 2: Move the balls/);
-  assert.match(guide, /Pass 3: Change the keys/);
+  assert.match(guide, /Clean the copied goals/);
+  assert.match(guide, /Move the copied sprites/);
+  assert.match(guide, /Change the copied keys/);
+  assert.match(guide, /Only goal 1 should run score, time, speed, and music/);
+  assert.match(guide, /The x number moves a sprite left or right/);
+  assert.match(guide, /Every copied ball still listens for D/);
+  assert.doesNotMatch(guide, /Pass 1: Clean and move the goals/);
   assert.match(guide, /Change both from <kbd>D<\/kbd> to <kbd>F<\/kbd>/);
-  assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
+  assert.match(guide, /Do not clean goal 1/);
   assert.doesNotMatch(guide, /Keep the timer, score reset, tempo, and music on the Stage/);
   assert.match(guide, /sprite<\/strong> is a picture you code/);
   assert.doesNotMatch(guide, /controlled playtest|copying phase|temporary x and y fields|Repair projects made/);
   assert.match(guide, /window\.confirm/);
   assert.match(guide, /window\.print/);
+  assert.match(guide, /function VideoDemo/);
+  assert.match(guide, /data-video-caption/);
+  assert.match(guide, /data-guided-video/);
+  assert.match(guide, /Show all video steps/);
+  assert.doesNotMatch(guide, /label="English instructions" default/);
   assert.match(css, /@media print/);
   assert.match(css, /prefers-reduced-motion/);
+  assert.match(css, /\.video-instruction/);
   assert.doesNotMatch(packageJson, /react-loading-skeleton/);
   await access(new URL("../public/video/change-copied-keys.mp4", import.meta.url));
   await access(new URL("../public/video/change-copied-keys.vtt", import.meta.url));
@@ -125,8 +138,10 @@ test("finished site has local progress, print support, and no starter preview", 
   await access(new URL("../public/video/position-lane-1.vtt", import.meta.url));
   await access(new URL("../public/video/make-ball-fall-only.mp4", import.meta.url));
   await access(new URL("../public/video/make-ball-fall-only.vtt", import.meta.url));
-  await access(new URL("../public/video/make-all-copies.mp4", import.meta.url));
-  await access(new URL("../public/video/make-all-copies.vtt", import.meta.url));
+  await access(new URL("../public/video/make-all-copies-and-count.mp4", import.meta.url));
+  await access(new URL("../public/video/make-all-copies-and-count.vtt", import.meta.url));
+  await access(new URL("../public/video/clean-copied-goals.mp4", import.meta.url));
+  await access(new URL("../public/video/clean-copied-goals.vtt", import.meta.url));
   await access(new URL("../public/video/make-d-score-from-first-block.mp4", import.meta.url));
   await access(new URL("../public/video/make-d-score-from-first-block.vtt", import.meta.url));
   assert.equal(
@@ -140,5 +155,7 @@ test("finished site has local progress, print support, and no starter preview", 
   await assert.rejects(access(new URL("../public/video/make-d-score.mp4", import.meta.url)));
   await access(new URL("../public/video/copy-and-modify-example.mp4", import.meta.url));
   await access(new URL("../public/video/copy-and-modify-example.vtt", import.meta.url));
+  assert.match(await readFile(new URL("../scripts/github-pages.js", import.meta.url), "utf8"), /function setupVideoCaptions/);
+  assert.match(await readFile(new URL("../module.json", import.meta.url), "utf8"), /"version": "0\.14\.0"/);
   await assert.rejects(access(new URL("../app/_sites-preview/SkeletonPreview.tsx", import.meta.url)));
 });
