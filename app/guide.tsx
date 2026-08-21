@@ -1,8 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { useEffect, useId, useMemo, useState, type ReactNode } from "react";
 
-const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.6.0:guide-progress";
+const STORAGE_KEY = "MOD-SCRATCH-RHYTHM-01:v0.7.0:guide-progress";
 
 const stepNames = [
   "Get Scratch ready",
@@ -27,11 +27,19 @@ function Callout({ kind = "check", title, children }: { kind?: "check" | "tip" |
   return <aside className={`callout ${kind}`}><strong>{title}</strong><div>{children}</div></aside>;
 }
 
+function Vocabulary({ term, meaning }: { term: string; meaning: string }) {
+  const tooltipId = useId();
+  return <span className="vocabulary">
+    <button type="button" className="vocabulary-term" aria-describedby={tooltipId}>{term}</button>
+    <span id={tooltipId} className="vocabulary-tip" role="tooltip">{meaning}</span>
+  </span>;
+}
+
 const valueChip = (value: string) => <code>{value}</code>;
 
 function StepContent({ step }: { step: number }) {
   if (step === 1) return <>
-    <p className="step-intro">Start with an empty Scratch project. Do not make any sprites yet.</p>
+    <p className="step-intro">Start with an empty Scratch project. Do not make any <Vocabulary term="sprites" meaning="Pictures you can give Scratch blocks to." /> yet.</p>
     <ol className="action-list">
       <li>Open <a href="https://scratch.mit.edu/projects/editor/" target="_blank" rel="noreferrer">Scratch Create</a>.</li>
       <li>Find the cat. Click its trash can.</li>
@@ -40,12 +48,12 @@ function StepContent({ step }: { step: number }) {
       <li>Click <strong>File → Save to your computer</strong>.</li>
       <li>Name the file <code>4-Lane Rhythm Game - Your Name.sb3</code>.</li>
     </ol>
-    <Callout kind="tip" title="Words in this guide"><p>A <strong>sprite</strong> is a picture you code. The <strong>Stage</strong> is the white game screen. A <strong>script</strong> is a group of connected blocks. <strong>Duplicate</strong> means make a copy. A <strong>lane</strong> is one ball path.</p></Callout>
+    <Callout kind="tip" title="Words in this guide"><p>Bold words with a dotted line have a quick meaning. Point to the word, tap it, or use the Tab key. A <strong>sprite</strong> is a picture you code. The <strong>Stage</strong> is the white game screen. A <strong>script</strong> is a group of connected blocks. <strong>Duplicate</strong> means make a copy. A <strong>lane</strong> is one ball path.</p></Callout>
     <Callout title="Stop and check"><p>You should see a white Stage, no cat, and a green Music button.</p></Callout>
   </>;
 
   if (step === 3) return <>
-    <p className="step-intro">Make two number boxes. One shows time. One shows score.</p>
+    <p className="step-intro">Make two <Vocabulary term="variables" meaning="Named number boxes that can change while the game runs." />. One shows time. One shows score.</p>
     <ol className="action-list">
       <li>Click <strong>Variables</strong>, then <strong>Make a Variable</strong>.</li>
       <li>Make a variable named {valueChip("time")}. Choose <strong>For all sprites</strong>.</li>
@@ -60,11 +68,11 @@ set [time v] to (0)
 set [score v] to (0)
 set tempo to (60) :: music
     `} />
-    <Callout kind="warning" title="Keep this on goal 1"><p>Do not put another copy on a ball. Goal 1 will control the score, time, tempo, and music.</p></Callout>
+    <Callout kind="warning" title="Keep this on goal 1"><p>Do not put another copy on a ball. Goal 1 will control the score, time, <Vocabulary term="tempo" meaning="The music speed number. A bigger number makes the game faster." />, and music.</p></Callout>
   </>;
 
   if (step === 4) return <>
-    <p className="step-intro">Stay on goal 1. Make three more scripts. Do not connect these scripts to each other.</p>
+    <p className="step-intro">Stay on goal 1. Make three more <Vocabulary term="scripts" meaning="Groups of connected Scratch blocks that give instructions." />. Do not connect these scripts to each other.</p>
     <div className="script-grid">
       <Script title="Timer" code={`
 when green flag clicked
@@ -104,10 +112,10 @@ end
       <li>Click the Scratch <strong>Ball</strong>.</li>
       <li>Name it {valueChip("Ball 1")}.</li>
       <li>Change its size to {valueChip("150")}.</li>
-      <li>Right-click Ball 1. Click <strong>duplicate</strong>. This makes a copy.</li>
+      <li>Right-click Ball 1. Click <Vocabulary term="duplicate" meaning="Make a copy of the sprite and all of its blocks." />.</li>
       <li>Name the copy {valueChip("goal 1")}.</li>
       <li>Click <strong>Costumes</strong>. Click the circle.</li>
-      <li>Turn <strong>Fill</strong> off. Choose an orange <strong>Outline</strong>.</li>
+      <li>Turn <Vocabulary term="Fill" meaning="The color inside a shape." /> off. Choose an orange <Vocabulary term="Outline" meaning="The line around the outside of a shape." />.</li>
       <li>Keep the goal size at {valueChip("150")}.</li>
     </ol>
     <figure className="video-demo">
@@ -121,7 +129,7 @@ end
   </>;
 
   if (step === 5) return <>
-    <p className="step-intro">Put Ball 1 above goal 1. Both sprites use the same x number.</p>
+    <p className="step-intro">Put Ball 1 above goal 1. Both sprites use the same <Vocabulary term="x number" meaning="The left and right position. The same x number puts both sprites in one lane." />.</p>
     <ol className="action-list">
       <li>Click {valueChip("goal 1")}. Copy the first script below.</li>
       <li>Click {valueChip("Ball 1")}. Copy the second script below.</li>
@@ -142,7 +150,7 @@ go to x: (-190) y: (143)
   </>;
 
   if (step === 6) return <>
-    <p className="step-intro">Make Ball 1 fall. Put the small round blocks inside the white spaces.</p>
+    <p className="step-intro">Make Ball 1 fall in a <Vocabulary term="loop" meaning="Blocks that repeat. The forever block repeats until you stop the game." />. Put the small round blocks inside the white spaces.</p>
     <Script title="Ball 1 falling loop" code={`
 when green flag clicked
 show
@@ -183,7 +191,7 @@ end
   </>;
 
   if (step === 8) return <>
-    <p className="step-intro">Test lane 1 now. Do not copy lane 1 until all 6 checks work.</p>
+    <p className="step-intro">Test <Vocabulary term="lane 1" meaning="Goal 1, Ball 1, and the D key working together." /> now. Do not copy lane 1 until all 6 checks work.</p>
     <ul className="test-list">
       <li><span>1</span>Click the green flag. Ball 1 starts at the top.</li>
       <li><span>2</span>Press <kbd>D</kbd> when Ball 1 is inside the ring. Score goes up by 1.</li>
@@ -389,6 +397,6 @@ export default function Guide() {
         <p className="storage-note">Your check marks stay only on this browser and this device. You must also save your Scratch game as an .sb3 file.</p>
       </div>
     </section>
-    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.6.0 · Grade 7 prototype</span></footer>
+    <footer><strong>MOD-SCRATCH-RHYTHM-01</strong><span>Version 0.7.0 · Grade 7 prototype</span></footer>
   </main>;
 }

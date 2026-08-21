@@ -79,6 +79,12 @@ h2 { margin: 0; font-size: clamp(2rem, 4vw, 3.5rem); letter-spacing: -.045em; li
 .action-list li { padding-left: 9px; color: #34303f; font-size: 1.04rem; line-height: 1.58; }
 .action-list li::marker { color: var(--violet); font-weight: 900; }
 
+.vocabulary { position: relative; display: inline-block; }
+.vocabulary-term { border: 0; border-bottom: 2px dotted var(--violet); padding: 0 1px; background: transparent; color: inherit; font: inherit; font-weight: 850; cursor: help; }
+.vocabulary-tip { position: absolute; z-index: 20; left: 50%; bottom: calc(100% + 10px); width: max-content; max-width: min(260px, 76vw); border-radius: 10px; padding: 10px 12px; background: #292044; color: white; box-shadow: 0 8px 24px rgba(25, 17, 58, .24); font-size: .88rem; font-weight: 650; line-height: 1.4; text-align: left; opacity: 0; visibility: hidden; transform: translate(-50%, 4px); transition: opacity .15s ease, transform .15s ease, visibility .15s; pointer-events: none; }
+.vocabulary-tip::after { position: absolute; top: 100%; left: 50%; border: 7px solid transparent; border-top-color: #292044; content: ""; transform: translateX(-50%); }
+.vocabulary:hover .vocabulary-tip, .vocabulary:focus-within .vocabulary-tip { opacity: 1; visibility: visible; transform: translate(-50%, 0); }
+
 .script-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .script-card { margin: 24px 0; padding: 20px; border: 1px solid #d7d1e8; border-radius: 17px; background: #f8f7fb; overflow-x: auto; }
 .script-card figcaption { margin-bottom: 16px; color: #514b60; font-weight: 850; }
@@ -186,6 +192,7 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   html { scroll-behavior: auto; }
   .falling-ball { animation: none; top: 95px; }
   .progress-track span { transition: none; }
+  .vocabulary-tip { transition: none; }
 }
 
 @media print {
@@ -205,4 +212,6 @@ footer { display: flex; justify-content: center; gap: 18px; padding: 26px 20px; 
   .script-card { background: white; overflow: visible; }
   .script-card svg { max-width: 100%; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
   a { color: black; }
+  .vocabulary-term { border-bottom: 0; }
+  .vocabulary-tip { display: none; }
 }

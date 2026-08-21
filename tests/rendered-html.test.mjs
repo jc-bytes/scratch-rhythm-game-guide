@@ -43,7 +43,11 @@ test("finished site has local progress, print support, and no starter preview", 
     readFile(new URL("../app/globals.css", import.meta.url), "utf8"),
     readFile(new URL("../package.json", import.meta.url), "utf8"),
   ]);
-  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.6\.0:guide-progress/);
+  assert.match(guide, /MOD-SCRATCH-RHYTHM-01:v0\.7\.0:guide-progress/);
+  assert.match(guide, /function Vocabulary/);
+  assert.match(guide, /role="tooltip"/);
+  assert.match(guide, /Point to the word, tap it, or use the Tab key/);
+  assert.match(css, /\.vocabulary:hover \.vocabulary-tip, \.vocabulary:focus-within \.vocabulary-tip/);
   assert.match(guide, /pre className="blocks"/);
   assert.match(guide, /scratchblocks\.min\.js/);
   assert.match(guide, /make-goal-ring\.mp4/);
@@ -51,7 +55,7 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /Are you starting Part 3\?/);
   assert.match(guide, /Are you starting Part 4\?/);
   assert.match(guide, /After 20 seconds, tempo should be near 64/);
-  assert.match(guide, /Stay on goal 1\. Make three more scripts/);
+  assert.match(guide, /Stay on goal 1\. Make three more <Vocabulary term="scripts"/);
   assert.match(guide, /Delete the 4 extra scripts from goal 2/);
   assert.match(guide, /Goal 1 keeps its position, setup, timer, speed, and music scripts/);
   assert.doesNotMatch(guide, /Keep the timer, score reset, tempo, and music on the Stage/);
