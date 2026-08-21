@@ -363,8 +363,8 @@ end
     `} />
     <figure className="video-demo">
       <video controls playsInline preload="metadata" aria-label="Silent demonstration of making and testing the Ball 1 D-key scoring script">
-        <source src="/video/make-d-score-complete.mp4" type="video/mp4" />
-        <track kind="captions" src="/video/make-d-score-complete.vtt" srcLang="en" label="English instructions" default />
+        <source src="/video/make-d-score-from-first-block.mp4" type="video/mp4" />
+        <track kind="captions" src="/video/make-d-score-from-first-block.vtt" srcLang="en" label="English instructions" default />
       </video>
       <figcaption><strong>3½-minute video:</strong> Make the complete D-key scoring script from the first green-flag block. The video has no sound. Check the 2 D-key blocks and the 2 y numbers.</figcaption>
     </figure>

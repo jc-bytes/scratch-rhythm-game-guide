@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { createHash } from "node:crypto";
 import { access, readFile } from "node:fs/promises";
 import test from "node:test";
 
@@ -77,7 +78,7 @@ test("finished site has local progress, print support, and no starter preview", 
   assert.match(guide, /position-lane-1\.mp4/);
   assert.match(guide, /change-copied-keys\.mp4/);
   assert.match(guide, /make-ball-fall-only\.mp4/);
-  assert.match(guide, /make-d-score-complete\.mp4/);
+  assert.match(guide, /make-d-score-from-first-block\.mp4/);
   assert.match(guide, /from the first green-flag block/);
   assert.match(guide, /make-all-copies\.mp4/);
   assert.match(guide, /function LaneOneTest/);
@@ -126,8 +127,16 @@ test("finished site has local progress, print support, and no starter preview", 
   await access(new URL("../public/video/make-ball-fall-only.vtt", import.meta.url));
   await access(new URL("../public/video/make-all-copies.mp4", import.meta.url));
   await access(new URL("../public/video/make-all-copies.vtt", import.meta.url));
-  await access(new URL("../public/video/make-d-score-complete.mp4", import.meta.url));
-  await access(new URL("../public/video/make-d-score-complete.vtt", import.meta.url));
+  await access(new URL("../public/video/make-d-score-from-first-block.mp4", import.meta.url));
+  await access(new URL("../public/video/make-d-score-from-first-block.vtt", import.meta.url));
+  assert.equal(
+    createHash("sha256")
+      .update(await readFile(new URL("../public/video/make-d-score-from-first-block.mp4", import.meta.url)))
+      .digest("hex"),
+    "545df3f7262091f6eec795c82c402038c589f401ba54309667cbb2b254efd98d",
+    "Step 7 must use the verified scoring-only video segment",
+  );
+  await assert.rejects(access(new URL("../public/video/make-d-score-complete.mp4", import.meta.url)));
   await assert.rejects(access(new URL("../public/video/make-d-score.mp4", import.meta.url)));
   await access(new URL("../public/video/copy-and-modify-example.mp4", import.meta.url));
   await access(new URL("../public/video/copy-and-modify-example.vtt", import.meta.url));
